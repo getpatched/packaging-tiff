@@ -30,7 +30,7 @@ The output preserves the complete distro source version and appends `+getpatched
 
 ## Build and verification
 
-The platform build runner downloads the exact `.dsc` and source archives, applies the selected backport to distro packaging, and builds the target-specific Debian source and binary packages. It then checks the installed vulnerable baseline with Valgrind and runs the same `tiffcrop -D format:txt,level:2,input:...` case against the installed patched package, followed by `tiffinfo` on its output. The release candidate remains ineligible if any check is missing or fails.
+The platform build runner downloads the exact `.dsc` and source archives, applies the selected backport to distro packaging, and builds the target-specific Debian source and binary packages. It runs `tiffcrop -D format:txt,level:2,input:...` directly against the exact installed baseline and requires the process to terminate with SIGSEGV. Source builds of the pinned distro sources independently reproduce a stack-buffer overflow with AddressSanitizer on the same fixture. The installed patched package must complete the debug dump successfully, followed by a successful `tiffinfo` readback. The release candidate remains ineligible if any check is missing or fails.
 
 Local recipe validation (from a checkout with the platform repository alongside it):
 

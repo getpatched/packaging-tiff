@@ -37,7 +37,7 @@
               "sha256": "cc4525fd8ba32458b14d7bcde172a9c5cf3ae98a9629f2f1f1e09a93cc775872"
             }
           ],
-          "baselineExpectation": "Valgrind reports the out-of-bounds srcbuffs access against the exact installed baseline package.",
+          "baselineExpectation": "The exact installed baseline tiffcrop terminates with SIGSEGV while running the level-2 text debug dump on the nine-sample planar fixture; source-build AddressSanitizer evidence identifies the affected sample-buffer overflow.",
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
       ]
@@ -82,7 +82,7 @@
               "sha256": "cc4525fd8ba32458b14d7bcde172a9c5cf3ae98a9629f2f1f1e09a93cc775872"
             }
           ],
-          "baselineExpectation": "Valgrind reports the out-of-bounds srcbuffs access against the exact installed baseline package.",
+          "baselineExpectation": "The exact installed baseline tiffcrop terminates with SIGSEGV while running the level-2 text debug dump on the nine-sample planar fixture; source-build AddressSanitizer evidence identifies the affected sample-buffer overflow.",
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
       ]
