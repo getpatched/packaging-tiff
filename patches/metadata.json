@@ -5,7 +5,7 @@
       "id": "cve-2025-61144-focal",
       "kind": "security",
       "file": "CVE-2025-61144-focal.patch",
-      "sha256": "6e4d26b4e8618a8f217678c59ebe0fcbfa75cc14f3f7ece2ae91bc7ade0c1a5a",
+      "sha256": "f669281532d1da467e40e9a31581b26450cdeedf63dc245b54f923a57ab2bfc2",
       "title": "Bound tiffcrop's debug sample dump loop",
       "description": "Bounds the debug output loop to the MAX_SAMPLES capacity of srcbuffs.",
       "cves": [
