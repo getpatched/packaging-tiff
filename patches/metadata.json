@@ -2,67 +2,6 @@
   "schemaVersion": 3,
   "patches": [
     {
-      "id": "cve-2025-61143",
-      "kind": "security",
-      "file": "CVE-2025-61143.patch",
-      "sha256": "cda3fbeac08c9fc8c5ac8462c7ea0e88310543e9dd72dd7a93bb9f9c2855efd8",
-      "title": "Avoid a null dereference when tiffcrop cannot open its output",
-      "description": "Guards tiffcrop's debug completion message when output creation failed and adds a width bound to tiffdither's scanline buffer.",
-      "cves": [
-        "CVE-2025-61143"
-      ],
-      "upstream": {
-        "repository": "https://gitlab.com/libtiff/libtiff",
-        "commit": "4d28af5fe61b1760f10981f5072ff1e6fd44f210",
-        "url": "https://gitlab.com/libtiff/libtiff/-/commit/4d28af5fe61b1760f10981f5072ff1e6fd44f210"
-      },
-      "appliesTo": [
-        {
-          "target": "ubuntu-focal-amd64",
-          "sourceVersion": "4.1.0+git191117-2ubuntu0.20.04.14"
-        },
-        {
-          "target": "debian-bookworm-amd64",
-          "sourceVersion": "4.5.0-6+deb12u4"
-        },
-        {
-          "target": "debian-trixie-amd64",
-          "sourceVersion": "4.7.0-3+deb13u3"
-        }
-      ],
-      "dep3": {
-        "origin": "Backport of upstream commit 4d28af5fe61b1760f10981f5072ff1e6fd44f210.",
-        "forwarded": "not-needed (applied upstream)",
-        "lastUpdate": "2026-10-30"
-      },
-      "tests": [
-        {
-          "id": "tiffcrop-null-output-debug-log",
-          "runner": "getpatched/platform:verification/regression.py",
-          "fixtures": [
-            {
-              "path": "tests/fixtures/multisample.tif",
-              "sha256": "cc4525fd8ba32458b14d7bcde172a9c5cf3ae98a9629f2f1f1e09a93cc775872"
-            }
-          ],
-          "baselineExpectation": "Valgrind reports the null-pointer read when tiffcrop debug logging runs after output creation fails on the exact installed baseline.",
-          "patchedExpectation": "The installed patched tiffcrop reports the failed output without a Valgrind memory error."
-        },
-        {
-          "id": "tiffdither-scanline-width-bound",
-          "runner": "getpatched/platform:verification/regression.py",
-          "fixtures": [
-            {
-              "path": "tests/fixtures/subscanline.tif",
-              "sha256": "4f8432b0cffb3426f224f7491ba91d5e2de210033459cd22370ab6f0efe956be"
-            }
-          ],
-          "baselineExpectation": "Valgrind reports an out-of-bounds row access when tiffdither processes the 1-bit, 8-pixel fixture whose scanline occupies one byte.",
-          "patchedExpectation": "The installed patched tiffdither rejects the oversized row without a Valgrind memory error."
-        }
-      ]
-    },
-    {
       "id": "cve-2025-61144-focal",
       "kind": "security",
       "file": "CVE-2025-61144-focal.patch",
