@@ -34,10 +34,10 @@
           "fixtures": [
             {
               "path": "tests/fixtures/multisample.tif",
-              "sha256": "cc4525fd8ba32458b14d7bcde172a9c5cf3ae98a9629f2f1f1e09a93cc775872"
+              "sha256": "0991f6142f9aa6d23de8ac91d30c613910f8570fea80af5ea34fe73418b5dcee"
             }
           ],
-          "baselineExpectation": "The exact installed baseline tiffcrop terminates with SIGSEGV while running the level-2 text debug dump on the nine-sample planar fixture; source-build AddressSanitizer evidence identifies the affected sample-buffer overflow.",
+          "baselineExpectation": "Valgrind reports an invalid 8-byte read at the first byte after the 64-byte srcbuffs stack array in tiffcrop loadImage/combineSeparateSamplesBytes while processing the nine-sample separate-planar RGB/extra fixture; a generic SIGSEGV alone is insufficient.",
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
       ]
@@ -79,10 +79,10 @@
           "fixtures": [
             {
               "path": "tests/fixtures/multisample.tif",
-              "sha256": "cc4525fd8ba32458b14d7bcde172a9c5cf3ae98a9629f2f1f1e09a93cc775872"
+              "sha256": "0991f6142f9aa6d23de8ac91d30c613910f8570fea80af5ea34fe73418b5dcee"
             }
           ],
-          "baselineExpectation": "The exact installed baseline tiffcrop terminates with SIGSEGV while running the level-2 text debug dump on the nine-sample planar fixture; source-build AddressSanitizer evidence identifies the affected sample-buffer overflow.",
+          "baselineExpectation": "Valgrind reports an invalid 8-byte read at the first byte after the 64-byte srcbuffs stack array in tiffcrop loadImage/combineSeparateSamplesBytes while processing the nine-sample separate-planar RGB/extra fixture; a generic SIGSEGV alone is insufficient.",
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
       ]
