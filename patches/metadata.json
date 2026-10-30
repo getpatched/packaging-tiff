@@ -37,7 +37,10 @@
               "sha256": "0991f6142f9aa6d23de8ac91d30c613910f8570fea80af5ea34fe73418b5dcee"
             }
           ],
-          "baselineExpectation": "Valgrind reports an invalid 8-byte read at the first byte after the 64-byte srcbuffs stack array in tiffcrop loadImage/combineSeparateSamplesBytes while processing the nine-sample separate-planar RGB/extra fixture; a generic SIGSEGV alone is insufficient.",
+          "baselineExpectation": "On the exact nine-sample separate-planar RGB/extra fixture and level-2 debug command, the installed baseline must report its target-specific 8-byte uninitialised-value stack signature and a nonzero Memcheck summary (exit 97). The recorded signature currently covers Debian Trixie only; Focal and Bookworm fail closed until their signatures are captured. This binary-specific runtime signal does not symbolize the stack-array boundary.",
+          "baselineStackSignatures": {
+            "debian-trixie-amd64": ["0x114980", "0x116FB2", "0x10AC12"]
+          },
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
       ]
@@ -82,7 +85,10 @@
               "sha256": "0991f6142f9aa6d23de8ac91d30c613910f8570fea80af5ea34fe73418b5dcee"
             }
           ],
-          "baselineExpectation": "Valgrind reports an invalid 8-byte read at the first byte after the 64-byte srcbuffs stack array in tiffcrop loadImage/combineSeparateSamplesBytes while processing the nine-sample separate-planar RGB/extra fixture; a generic SIGSEGV alone is insufficient.",
+          "baselineExpectation": "On the exact nine-sample separate-planar RGB/extra fixture and level-2 debug command, the installed baseline must report its target-specific 8-byte uninitialised-value stack signature and a nonzero Memcheck summary (exit 97). The recorded signature currently covers Debian Trixie only; Focal and Bookworm fail closed until their signatures are captured. This binary-specific runtime signal does not symbolize the stack-array boundary.",
+          "baselineStackSignatures": {
+            "debian-trixie-amd64": ["0x114980", "0x116FB2", "0x10AC12"]
+          },
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
       ]
