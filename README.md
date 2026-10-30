@@ -12,6 +12,8 @@ GetPatched maintains selected, tested public Ubuntu and Debian package updates. 
 
 These entries are not release claims. All targets use the zero-hour public policy, but publication remains disabled until each exact source builds, the installed regression passes, the package-aware scan is clear, and a clean client installation is verified. Debian describes CVE-2025-61144 as a command-line tool crash with no security impact; Ubuntu rates it Low. The scope is bounded `tiffcrop` behavior, not a remote library compromise or a general security guarantee.
 
+The Focal build also produces `libtiff5` so `libtiff-tools` can install with its matching, versioned runtime dependency. The advisory scan scope remains `libtiff-tools`, where the patched `tiffcrop` executable is shipped.
+
 CVE-2025-61143 is excluded from these exact target builds. The original malformed-input probe and a second crop-validation probe both produced zero Valgrind errors on the pinned Ubuntu Focal, Debian Bookworm, and Debian Trixie sources; the latter also exited before the `TIFFFileName(out)` cleanup call. We do not claim the upstream 61143 patch fixes these target versions. The hosted baseline reports are retained in [`getpatched/platform`](https://github.com/getpatched/platform/tree/debian-snapshot-tls/evidence/tiff-hosted-baselines-2026-10-30.md).
 
 ## Repository structure
