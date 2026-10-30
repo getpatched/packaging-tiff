@@ -11,7 +11,8 @@
   "source": {
     "format": "3.0 (quilt)",
     "version": "4.7.0-3+deb13u3",
-    "publishedAt": "2026-07-10T14:34:09Z",
+    "publication": "https://tracker.debian.org/news/1776819/accepted-tiff-470-3deb13u3-source-into-stable-security/",
+    "publishedAt": "2026-07-19T18:55:07Z",
     "descriptor": {
       "name": "tiff_4.7.0-3+deb13u3.dsc",
       "url": "https://snapshot.debian.org/archive/debian/20261030T000000Z/pool/main/t/tiff/tiff_4.7.0-3+deb13u3.dsc",
@@ -54,6 +55,7 @@
     "libtiff-tools"
   ],
   "patches": [
+    "cve-2025-61143",
     "cve-2025-61144-debian"
   ],
   "releaseAccess": {

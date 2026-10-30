@@ -11,7 +11,8 @@
   "source": {
     "format": "3.0 (quilt)",
     "version": "4.5.0-6+deb12u4",
-    "publishedAt": "2026-04-07T17:22:16Z",
+    "publication": "https://tracker.debian.org/news/1743058/accepted-tiff-450-6deb12u4-source-into-oldstable-proposed-updates/",
+    "publishedAt": "2026-04-18T17:05:05Z",
     "descriptor": {
       "name": "tiff_4.5.0-6+deb12u4.dsc",
       "url": "https://snapshot.debian.org/archive/debian/20261030T000000Z/pool/main/t/tiff/tiff_4.5.0-6+deb12u4.dsc",
@@ -54,6 +55,7 @@
     "libtiff-tools"
   ],
   "patches": [
+    "cve-2025-61143",
     "cve-2025-61144-debian"
   ],
   "releaseAccess": {
