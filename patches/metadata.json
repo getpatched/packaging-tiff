@@ -70,8 +70,10 @@
               "sha256": "feef75c58c030f4ca51eb50d1162ce7f824a7dfb3498f8953379e59737ad91bc"
             }
           ],
-          "baselineExpectation": "On the exact nine-sample separate-planar RGB/extra fixture and level-2 debug command, the installed baseline must report its target-specific 8-byte uninitialised-value stack signature and a nonzero Memcheck summary (exit 97). The recorded signature currently covers Debian Trixie only; Focal and Bookworm fail closed until their signatures are captured. This binary-specific runtime signal does not symbolize the stack-array boundary.",
+          "baselineExpectation": "On the exact nine-sample separate-planar RGB/extra fixture and level-2 debug command, the installed baseline must report its target-specific 8-byte uninitialised-value stack signature and a nonzero Memcheck summary (exit 97). The ordered three-frame signatures were captured from the exact installed baseline package for each configured target. This binary-specific runtime signal does not symbolize the stack-array boundary.",
           "baselineStackSignatures": {
+            "ubuntu-focal-amd64": ["0x111D68", "0x112167", "0x118343"],
+            "debian-bookworm-amd64": ["0x1131E8", "0x11336B", "0x115EE3"],
             "debian-trixie-amd64": ["0x114980", "0x116FB2", "0x10AC12"]
           },
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
@@ -118,8 +120,10 @@
               "sha256": "feef75c58c030f4ca51eb50d1162ce7f824a7dfb3498f8953379e59737ad91bc"
             }
           ],
-          "baselineExpectation": "On the exact nine-sample separate-planar RGB/extra fixture and level-2 debug command, the installed baseline must report its target-specific 8-byte uninitialised-value stack signature and a nonzero Memcheck summary (exit 97). The recorded signature currently covers Debian Trixie only; Focal and Bookworm fail closed until their signatures are captured. This binary-specific runtime signal does not symbolize the stack-array boundary.",
+          "baselineExpectation": "On the exact nine-sample separate-planar RGB/extra fixture and level-2 debug command, the installed baseline must report its target-specific 8-byte uninitialised-value stack signature and a nonzero Memcheck summary (exit 97). The ordered three-frame signatures were captured from the exact installed baseline package for each configured target. This binary-specific runtime signal does not symbolize the stack-array boundary.",
           "baselineStackSignatures": {
+            "ubuntu-focal-amd64": ["0x111D68", "0x112167", "0x118343"],
+            "debian-bookworm-amd64": ["0x1131E8", "0x11336B", "0x115EE3"],
             "debian-trixie-amd64": ["0x114980", "0x116FB2", "0x10AC12"]
           },
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
