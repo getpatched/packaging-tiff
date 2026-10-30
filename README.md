@@ -17,14 +17,14 @@ These entries are not release claims. All targets use the zero-hour public polic
 - `package-manifest.json` indexes separate target recipes.
 - `targets/<distribution>/<codename>-<architecture>.json` pins the distro source descriptor and archives, exact source and output versions, changelog, binaries and patch selection.
 - `patches/` holds DEP-3 backports. `patches/metadata.json` records source-version applicability, upstream commit, CVE, patch checksum and regression evidence inputs. Both selected backports address the documented `tiffcrop` debug failure paths.
-- `tests/fixtures/` contains a valid nine-sample separate-planar TIFF for CVE-2025-61144 and a one-sample TIFF with an out-of-file strip offset that makes initial image loading fail for CVE-2025-61143.
+- `tests/fixtures/` contains a valid one-pixel, nine-sample separate-planar TIFF. It drives the CVE-2025-61144 debug sample-bound regression and a CVE-2025-61143 failure-cleanup regression: impossible pixel margins fail crop validation before the output handle is opened.
 - `LICENSES/` preserves upstream and distro copyright and license notices.
 
 Each target has an independent pinned build container, archive snapshot and scanner ecosystem (`Debian:12` or `Debian:13` for Debian) in `getpatched/platform/packages.json`. Debian profiles are currently build/scan candidates only; platform repository publication remains off. The descriptor and source payload hashes were checked against signed distro source indexes, but individual `.dsc` uploader signatures have not been separately verified.
 
 ## Patch and version policy
 
-The recipe backports upstream changes to the exact distro sources. [Commit 4d28af5](https://gitlab.com/libtiff/libtiff/-/commit/4d28af5fe61b1760f10981f5072ff1e6fd44f210) guards `tiffcrop` debug logging when initial image loading fails before the output handle exists (CVE-2025-61143). [Commit 88cf9db](https://gitlab.com/libtiff/libtiff/-/commit/88cf9dbb48f6e172629795ecffae35d5052f68aa) caps a level-2 debug dump loop at `MAX_SAMPLES`, matching the fixed capacity of its sample-buffer array (CVE-2025-61144). Each patch applies only to the exact source versions listed in the target files and patch metadata.
+The recipe backports upstream changes to the exact distro sources. [Commit 4d28af5](https://gitlab.com/libtiff/libtiff/-/commit/4d28af5fe61b1760f10981f5072ff1e6fd44f210) guards `tiffcrop` debug logging when failure cleanup runs before the output handle exists (CVE-2025-61143). The installed regression reaches that cleanup through an impossible crop margin and checks the exact null read in `TIFFFileName`; this is a deterministic proof of the same unsafe cleanup sink, not the upstream issue's original malformed-input fixture. [Commit 88cf9db](https://gitlab.com/libtiff/libtiff/-/commit/88cf9dbb48f6e172629795ecffae35d5052f68aa) caps a level-2 debug dump loop at `MAX_SAMPLES`, matching the fixed capacity of its sample-buffer array (CVE-2025-61144). Each patch applies only to the exact source versions listed in the target files and patch metadata.
 
 The output preserves the complete distro source version and appends `+getpatched1`. A subsequent patch on the same base increments the serial, such as `+getpatched2`; a changed distro source requires a separately pinned target and fresh evidence. Version ranges alone never establish applicability.
 
