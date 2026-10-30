@@ -6,31 +6,33 @@ GetPatched maintains selected, tested public Ubuntu and Debian package updates. 
 
 | Target | Pinned source | GetPatched version | CVE | Current status |
 |---|---|---|---|---|
-| `ubuntu-focal-amd64` | Ubuntu 20.04 · `4.1.0+git191117-2ubuntu0.20.04.14` | `4.1.0+git191117-2ubuntu0.20.04.14+getpatched1` | CVE-2025-61143, CVE-2025-61144 | Development candidate |
-| `debian-bookworm-amd64` | Debian 12 · `4.5.0-6+deb12u4` | `4.5.0-6+deb12u4+getpatched1` | CVE-2025-61143, CVE-2025-61144 | Development candidate |
-| `debian-trixie-amd64` | Debian 13 · `4.7.0-3+deb13u3` | `4.7.0-3+deb13u3+getpatched1` | CVE-2025-61143, CVE-2025-61144 | Development candidate |
+| `ubuntu-focal-amd64` | Ubuntu 20.04 · `4.1.0+git191117-2ubuntu0.20.04.14` | `4.1.0+git191117-2ubuntu0.20.04.14+getpatched1` | CVE-2025-61144 | Development candidate |
+| `debian-bookworm-amd64` | Debian 12 · `4.5.0-6+deb12u4` | `4.5.0-6+deb12u4+getpatched1` | CVE-2025-61144 | Development candidate |
+| `debian-trixie-amd64` | Debian 13 · `4.7.0-3+deb13u3` | `4.7.0-3+deb13u3+getpatched1` | CVE-2025-61144 | Development candidate |
 
-These entries are not release claims. All targets use the zero-hour public policy, but publication remains disabled until each exact source builds, both installed regressions pass, the package-aware scan is clear for both findings, and a clean client installation is verified. Debian's tracker describes CVE-2025-61143 and CVE-2025-61144 as command-line tool crashes with no security impact; Ubuntu rates them Low. The scope here is bounded `tiffcrop` failure handling, not a remote library compromise or a general security guarantee.
+These entries are not release claims. All targets use the zero-hour public policy, but publication remains disabled until each exact source builds, the installed regression passes, the package-aware scan is clear, and a clean client installation is verified. Debian describes CVE-2025-61144 as a command-line tool crash with no security impact; Ubuntu rates it Low. The scope is bounded `tiffcrop` behavior, not a remote library compromise or a general security guarantee.
+
+CVE-2025-61143 is excluded from these exact target builds. The original malformed-input probe and a second crop-validation probe both produced zero Valgrind errors on the pinned Ubuntu Focal, Debian Bookworm, and Debian Trixie sources; the latter also exited before the `TIFFFileName(out)` cleanup call. We do not claim the upstream 61143 patch fixes these target versions. The hosted baseline reports are retained in [`getpatched/platform`](https://github.com/getpatched/platform/tree/debian-snapshot-tls/evidence/tiff-hosted-baselines-2026-10-30.md).
 
 ## Repository structure
 
 - `package-manifest.json` indexes separate target recipes.
 - `targets/<distribution>/<codename>-<architecture>.json` pins the distro source descriptor and archives, exact source and output versions, changelog, binaries and patch selection.
-- `patches/` holds DEP-3 backports. `patches/metadata.json` records source-version applicability, upstream commit, CVE, patch checksum and regression evidence inputs. Both selected backports address the documented `tiffcrop` debug failure paths.
-- `tests/fixtures/` contains a valid one-pixel, nine-sample separate-planar TIFF. It drives the CVE-2025-61144 debug sample-bound regression and a CVE-2025-61143 failure-cleanup regression: impossible pixel margins fail crop validation before the output handle is opened.
+- `patches/` holds DEP-3 backports. `patches/metadata.json` records source-version applicability, upstream commit, CVE, patch checksum and regression evidence inputs. The selected backport addresses the reproduced CVE-2025-61144 debug sample-bound bug.
+- `tests/fixtures/` contains a valid one-pixel, nine-sample separate-planar TIFF for the CVE-2025-61144 debug sample-bound regression.
 - `LICENSES/` preserves upstream and distro copyright and license notices.
 
 Each target has an independent pinned build container, archive snapshot and scanner ecosystem (`Debian:12` or `Debian:13` for Debian) in `getpatched/platform/packages.json`. Debian profiles are currently build/scan candidates only; platform repository publication remains off. The descriptor and source payload hashes were checked against signed distro source indexes, but individual `.dsc` uploader signatures have not been separately verified.
 
 ## Patch and version policy
 
-The recipe backports upstream changes to the exact distro sources. [Commit 4d28af5](https://gitlab.com/libtiff/libtiff/-/commit/4d28af5fe61b1760f10981f5072ff1e6fd44f210) guards `tiffcrop` debug logging when failure cleanup runs before the output handle exists (CVE-2025-61143). The installed regression reaches that cleanup through an impossible crop margin and checks the exact null read in `TIFFFileName`; this is a deterministic proof of the same unsafe cleanup sink, not the upstream issue's original malformed-input fixture. [Commit 88cf9db](https://gitlab.com/libtiff/libtiff/-/commit/88cf9dbb48f6e172629795ecffae35d5052f68aa) caps a level-2 debug dump loop at `MAX_SAMPLES`, matching the fixed capacity of its sample-buffer array (CVE-2025-61144). Each patch applies only to the exact source versions listed in the target files and patch metadata.
+The recipe backports upstream [commit 88cf9db](https://gitlab.com/libtiff/libtiff/-/commit/88cf9dbb48f6e172629795ecffae35d5052f68aa), which caps a level-2 debug dump loop at `MAX_SAMPLES`, matching the fixed capacity of its sample-buffer array (CVE-2025-61144). The upstream CVE-2025-61143 guard is not selected because its cleanup fault has not reproduced on these exact sources.
 
 The output preserves the complete distro source version and appends `+getpatched1`. A subsequent patch on the same base increments the serial, such as `+getpatched2`; a changed distro source requires a separately pinned target and fresh evidence. Version ranges alone never establish applicability.
 
 ## Build and verification
 
-The platform build runner downloads the exact `.dsc` and source archives, applies the selected backports to distro packaging, and builds target-specific Debian source and binary packages. Installed baseline checks use Valgrind to verify the `tiffcrop` null-output path and debug-dump bounds. Patched checks require the expected error handling without memory errors and include a `tiffinfo` consumer check. The release candidate remains ineligible if any check is missing or fails.
+The platform build runner downloads the exact `.dsc` and source archives, applies the selected backport to distro packaging, and builds target-specific Debian source and binary packages. Installed baseline checks use Valgrind to reproduce the debug-dump bounds issue. Patched checks require the expected error handling without memory errors and include a `tiffinfo` consumer check. The release candidate remains ineligible if any check is missing or fails.
 
 Local recipe validation (from a checkout with the platform repository alongside it):
 

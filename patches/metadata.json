@@ -2,39 +2,6 @@
   "schemaVersion": 3,
   "patches": [
     {
-      "id": "cve-2025-61143",
-      "kind": "security",
-      "file": "CVE-2025-61143.patch",
-      "sha256": "bad3b0c26ee000d92bf93a29d16409fcdb8a946fec9a95f30472956b19021395",
-      "title": "Guard tiffcrop logging before output creation",
-      "description": "Avoids passing a null output handle to TIFFFileName when crop validation fails before output creation.",
-      "cves": ["CVE-2025-61143"],
-      "upstream": {
-        "repository": "https://gitlab.com/libtiff/libtiff",
-        "commit": "4d28af5fe61b1760f10981f5072ff1e6fd44f210",
-        "url": "https://gitlab.com/libtiff/libtiff/-/commit/4d28af5fe61b1760f10981f5072ff1e6fd44f210"
-      },
-      "appliesTo": [
-        {"target": "ubuntu-focal-amd64", "sourceVersion": "4.1.0+git191117-2ubuntu0.20.04.14"},
-        {"target": "debian-bookworm-amd64", "sourceVersion": "4.5.0-6+deb12u4"},
-        {"target": "debian-trixie-amd64", "sourceVersion": "4.7.0-3+deb13u3"}
-      ],
-      "dep3": {
-        "origin": "Backport of upstream commit 4d28af5, adapted for the pinned distro source versions.",
-        "forwarded": "not-needed (applied upstream)",
-        "lastUpdate": "2026-10-30"
-      },
-      "tests": [
-        {
-          "id": "tiffcrop-null-output-debug-log",
-          "runner": "getpatched/platform:verification/regression.py",
-          "fixtures": [{"path": "tests/fixtures/multisample.tif", "sha256": "feef75c58c030f4ca51eb50d1162ce7f824a7dfb3498f8953379e59737ad91bc"}],
-          "baselineExpectation": "On the valid one-pixel TIFF, impossible left/right margins fail crop validation before output creation. With an output debug dump enabled, failure cleanup dereferences the still-null output handle; Valgrind must report an invalid read in TIFFFileName.",
-          "patchedExpectation": "The crop error is reported, the debug dump records '(not opened)', and Valgrind reports zero errors."
-        }
-      ]
-    },
-    {
       "id": "cve-2025-61144-focal",
       "kind": "security",
       "file": "CVE-2025-61144-focal.patch",
