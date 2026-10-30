@@ -55,7 +55,11 @@
     "libtiff-tools"
   ],
   "patches": [
+    "cve-2025-61143",
     "cve-2025-61144-debian"
+  ],
+  "buildPatches": [
+    "tiffdither-scanline-width"
   ],
   "releaseAccess": {
     "policy": "public-after-checks",

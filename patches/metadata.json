@@ -2,6 +2,67 @@
   "schemaVersion": 3,
   "patches": [
     {
+      "id": "cve-2025-61143",
+      "kind": "security",
+      "file": "CVE-2025-61143.patch",
+      "sha256": "bad3b0c26ee000d92bf93a29d16409fcdb8a946fec9a95f30472956b19021395",
+      "title": "Guard tiffcrop logging when output creation fails",
+      "description": "Avoids passing a null output handle to TIFFFileName while reporting a failed output open.",
+      "cves": ["CVE-2025-61143"],
+      "upstream": {
+        "repository": "https://gitlab.com/libtiff/libtiff",
+        "commit": "4d28af5fe61b1760f10981f5072ff1e6fd44f210",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/4d28af5fe61b1760f10981f5072ff1e6fd44f210"
+      },
+      "appliesTo": [
+        {"target": "ubuntu-focal-amd64", "sourceVersion": "4.1.0+git191117-2ubuntu0.20.04.14"},
+        {"target": "debian-bookworm-amd64", "sourceVersion": "4.5.0-6+deb12u4"},
+        {"target": "debian-trixie-amd64", "sourceVersion": "4.7.0-3+deb13u3"}
+      ],
+      "dep3": {
+        "origin": "Backport of upstream commit 4d28af5, adapted for the pinned distro source versions.",
+        "forwarded": "not-needed (applied upstream)",
+        "lastUpdate": "2026-10-30"
+      },
+      "tests": [
+        {
+          "id": "tiffcrop-null-output-debug-log",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [{"path": "tests/fixtures/multisample.tif", "sha256": "0991f6142f9aa6d23de8ac91d30c613910f8570fea80af5ea34fe73418b5dcee"}],
+          "baselineExpectation": "A valid multi-sample TIFF with an output path under a nonexistent parent makes installed tiffcrop hit an invalid read while formatting its debug error log.",
+          "patchedExpectation": "The same output-open failure is reported without an invalid read; Valgrind reports zero errors."
+        }
+      ]
+    },
+    {
+      "id": "tiffdither-scanline-width",
+      "kind": "build-compatibility",
+      "file": "tiffdither-scanline-width.patch",
+      "sha256": "7de06f70a268b396efd5f28e25343d35a3f56a864a475eb505ede6e4c1f5626c",
+      "title": "Reject rows wider than tiffdither's scanline buffer",
+      "description": "Checks the decoded image width before tiffdither reads a scanline into its row buffer.",
+      "cves": [],
+      "appliesTo": [
+        {"target": "ubuntu-focal-amd64", "sourceVersion": "4.1.0+git191117-2ubuntu0.20.04.14"},
+        {"target": "debian-bookworm-amd64", "sourceVersion": "4.5.0-6+deb12u4"},
+        {"target": "debian-trixie-amd64", "sourceVersion": "4.7.0-3+deb13u3"}
+      ],
+      "dep3": {
+        "origin": "Backport of the tiffdither scanline-width guard from upstream commit 4d28af5.",
+        "forwarded": "not-needed (applied upstream)",
+        "lastUpdate": "2026-10-30"
+      },
+      "tests": [
+        {
+          "id": "tiffdither-scanline-width-bound",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [{"path": "tests/fixtures/subscanline.tif", "sha256": "4f8432b0cffb3426f224f7491ba91d5e2de210033459cd22370ab6f0efe956be"}],
+          "baselineExpectation": "The one-bit, sub-scanline-width fixture triggers a Memcheck invalid access in tiffdither.",
+          "patchedExpectation": "tiffdither rejects the undersized row and Memcheck reports zero errors."
+        }
+      ]
+    },
+    {
       "id": "cve-2025-61144-focal",
       "kind": "security",
       "file": "CVE-2025-61144-focal.patch",
