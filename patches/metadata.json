@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 3,
+  "patches": [
+    {
+      "id": "cve-2025-61144-focal",
+      "kind": "security",
+      "file": "CVE-2025-61144-focal.patch",
+      "sha256": "6e4d26b4e8618a8f217678c59ebe0fcbfa75cc14f3f7ece2ae91bc7ade0c1a5a",
+      "title": "Bound tiffcrop's debug sample dump loop",
+      "description": "Bounds the debug output loop to the MAX_SAMPLES capacity of srcbuffs.",
+      "cves": [
+        "CVE-2025-61144"
+      ],
+      "upstream": {
+        "repository": "https://gitlab.com/libtiff/libtiff",
+        "commit": "88cf9dbb48f6e172629795ecffae35d5052f68aa",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/88cf9dbb48f6e172629795ecffae35d5052f68aa"
+      },
+      "appliesTo": [
+        {
+          "target": "ubuntu-focal-amd64",
+          "sourceVersion": "4.1.0+git191117-2ubuntu0.20.04.14"
+        }
+      ],
+      "dep3": {
+        "origin": "Backport of upstream commit 88cf9db, adapted for Ubuntu Focal's tiffcrop source.",
+        "forwarded": "not-needed (applied upstream)",
+        "lastUpdate": "2026-10-30"
+      },
+      "tests": [
+        {
+          "id": "tiffcrop-debug-sample-bounds",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [
+            {
+              "path": "tests/fixtures/multisample.tif",
+              "sha256": "cc4525fd8ba32458b14d7bcde172a9c5cf3ae98a9629f2f1f1e09a93cc775872"
+            }
+          ],
+          "baselineExpectation": "Valgrind reports the out-of-bounds srcbuffs access against the exact installed baseline package.",
+          "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
+        }
+      ]
+    },
+    {
+      "id": "cve-2025-61144-debian",
+      "kind": "security",
+      "file": "CVE-2025-61144-debian.patch",
+      "sha256": "4a68096fa50e295af6b318c78e3f0c8cc6642752ff8b5365bced6b82235fbfc3",
+      "title": "Bound tiffcrop's debug sample dump loop",
+      "description": "Bounds the debug output loop to the MAX_SAMPLES capacity of srcbuffs.",
+      "cves": [
+        "CVE-2025-61144"
+      ],
+      "upstream": {
+        "repository": "https://gitlab.com/libtiff/libtiff",
+        "commit": "88cf9dbb48f6e172629795ecffae35d5052f68aa",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/88cf9dbb48f6e172629795ecffae35d5052f68aa"
+      },
+      "appliesTo": [
+        {
+          "target": "debian-bookworm-amd64",
+          "sourceVersion": "4.5.0-6+deb12u4"
+        },
+        {
+          "target": "debian-trixie-amd64",
+          "sourceVersion": "4.7.0-3+deb13u3"
+        }
+      ],
+      "dep3": {
+        "origin": "Backport of upstream commit 88cf9db, adapted for Debian tiffcrop sources.",
+        "forwarded": "not-needed (applied upstream)",
+        "lastUpdate": "2026-10-30"
+      },
+      "tests": [
+        {
+          "id": "tiffcrop-debug-sample-bounds",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [
+            {
+              "path": "tests/fixtures/multisample.tif",
+              "sha256": "cc4525fd8ba32458b14d7bcde172a9c5cf3ae98a9629f2f1f1e09a93cc775872"
+            }
+          ],
+          "baselineExpectation": "Valgrind reports the out-of-bounds srcbuffs access against the exact installed baseline package.",
+          "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
+        }
+      ]
+    }
+  ]
+}

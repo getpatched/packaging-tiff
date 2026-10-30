@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 2,
+  "id": "debian-trixie-amd64",
+  "base": {
+    "distribution": "Debian",
+    "release": "13",
+    "codename": "trixie",
+    "sourcePocket": "release",
+    "architecture": "amd64"
+  },
+  "source": {
+    "format": "3.0 (quilt)",
+    "version": "4.7.0-3+deb13u3",
+    "publishedAt": "2026-07-10T14:34:09Z",
+    "descriptor": {
+      "name": "tiff_4.7.0-3+deb13u3.dsc",
+      "url": "https://snapshot.debian.org/archive/debian/20261030T000000Z/pool/main/t/tiff/tiff_4.7.0-3+deb13u3.dsc",
+      "sha256": "51cdbd32322b5d35ef35677ace1cb7cd6591325da4ecd470ec6ccefab47d6a29",
+      "bytes": 2442
+    },
+    "files": [
+      {
+        "name": "tiff_4.7.0.orig.tar.bz2",
+        "role": "upstream-source",
+        "url": "https://snapshot.debian.org/archive/debian/20261030T000000Z/pool/main/t/tiff/tiff_4.7.0.orig.tar.bz2",
+        "sha256": "2b8b5c4e79cb2a4651796602e45d6179b7f18bc283feab417b8e881ef7e81862",
+        "bytes": 2111254
+      },
+      {
+        "name": "tiff_4.7.0-3+deb13u3.debian.tar.xz",
+        "role": "debian-packaging",
+        "url": "https://snapshot.debian.org/archive/debian/20261030T000000Z/pool/main/t/tiff/tiff_4.7.0-3+deb13u3.debian.tar.xz",
+        "sha256": "c0cbcb717e20a69964bfa7471cbb0137dd39a451434932972bc7fbcdb86345f8",
+        "bytes": 28212
+      }
+    ],
+    "signatureVerification": {
+      "verified": false,
+      "note": "The signed Debian source index authenticates these descriptor and archive hashes; individual .dsc signatures have not been separately verified."
+    }
+  },
+  "supportedSourceVersions": [
+    "4.7.0-3+deb13u3"
+  ],
+  "packageVersion": "4.7.0-3+deb13u3+getpatched1",
+  "releaseSerial": 1,
+  "changelog": {
+    "distribution": "trixie",
+    "urgency": "low",
+    "maintainer": "GetPatched Maintainers <packages@getpatched.dev>",
+    "date": "Fri, 30 Oct 2026 00:00:00 +0000"
+  },
+  "binaryPackages": [
+    "libtiff-tools"
+  ],
+  "patches": [
+    "cve-2025-61144-debian"
+  ],
+  "releaseAccess": {
+    "policy": "public-after-checks",
+    "sponsorDelayHours": 0,
+    "sponsorEligibility": null,
+    "earlyBinaryLicenseId": null,
+    "publicContributionSpdx": "MIT",
+    "earlyUse": [
+      "private",
+      "commercial"
+    ],
+    "earlyRedistributionAllowed": false,
+    "publicLicenseScope": "getpatched-authored-contributions-only"
+  },
+  "status": "unreleased-development-candidate"
+}
