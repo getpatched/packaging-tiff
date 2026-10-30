@@ -65,9 +65,7 @@
     "cve-2025-61143",
     "cve-2025-61144-focal"
   ],
-  "buildPatches": [
-    "tiffdither-scanline-width"
-  ],
+  "buildPatches": [],
   "releaseAccess": {
     "policy": "public-after-checks",
     "sponsorDelayHours": 0,
