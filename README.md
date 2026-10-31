@@ -6,35 +6,35 @@ GetPatched maintains selected, tested public Ubuntu and Debian package updates. 
 
 | Target | Pinned source | GetPatched version | CVE | Current status |
 |---|---|---|---|---|
-| `ubuntu-focal-amd64` | Ubuntu 20.04 · `4.1.0+git191117-2ubuntu0.20.04.14` | `4.1.0+git191117-2ubuntu0.20.04.14+getpatched2` | CVE-2025-61143, CVE-2025-61144 | Development candidate |
-| `debian-bookworm-amd64` | Debian 12 · `4.5.0-6+deb12u4` | `4.5.0-6+deb12u4+getpatched2` | CVE-2025-61143, CVE-2025-61144 | Development candidate |
-| `debian-trixie-amd64` | Debian 13 · `4.7.0-3+deb13u3` | `4.7.0-3+deb13u3+getpatched2` | CVE-2025-61143, CVE-2025-61144 | Development candidate |
+| `ubuntu-focal-amd64` | Ubuntu 20.04 · `4.1.0+git191117-2ubuntu0.20.04.14` | `4.1.0+git191117-2ubuntu0.20.04.14+getpatched2` | CVE-2025-61144 | Development candidate |
+| `debian-bookworm-amd64` | Debian 12 · `4.5.0-6+deb12u4` | `4.5.0-6+deb12u4+getpatched2` | CVE-2025-61144 | Development candidate |
+| `debian-trixie-amd64` | Debian 13 · `4.7.0-3+deb13u3` | `4.7.0-3+deb13u3+getpatched2` | CVE-2025-61144 | Development candidate |
 
 These entries are not release claims. All targets use the zero-hour public policy, but publication remains disabled until each exact source builds, the installed regression passes, the package-aware scan is clear, and a clean client installation is verified. Debian describes CVE-2025-61144 as a command-line tool crash with no security impact; Ubuntu rates it Low. The scope is bounded `tiffcrop` behavior, not a remote library compromise or a general security guarantee.
 
 The Focal build also produces `libtiff5` so `libtiff-tools` can install with its matching, versioned runtime dependency. The advisory scan scope remains `libtiff-tools`, where the patched `tiffcrop` executable is shipped.
 
-CVE-2025-61143 now has a candidate backport for these pinned targets. Its regression removes the fixture's `PhotometricInterpretation` tag and moves its first strip offset outside the file. This follows upstream's failure path before an output TIFF is opened while the level-2 debug dump is enabled. The candidate remains unreleased until each exact installed baseline reproduces the `TIFFFileName(NULL)` fault and its patched build passes the same probe.
+CVE-2025-61143 is not selected for these pinned targets. The exact hosted baselines failed `loadImage` and exited before the debug cleanup marker, with zero Memcheck errors. Upstream's v4.5.0 and v4.7.0 `tiffcrop` sources call `exit(EXIT_FAILURE)` at that failure site before cleanup. Ubuntu and Debian trackers still list the source versions as affected, so this is an applicability conflict, not a claim that the CVE is fixed or not affected. The reference patch remains in `patches/` for review, but no target applies it; re-enable it only after an exact package baseline reproduces the CVE path.
 
 ## Repository structure
 
 - `package-manifest.json` indexes separate target recipes.
 - `targets/<distribution>/<codename>-<architecture>.json` pins the distro source descriptor and archives, exact source and output versions, changelog, binaries and patch selection.
-- `patches/` holds DEP-3 backports. `patches/metadata.json` records source-version applicability, upstream commit, CVE, patch checksum and regression evidence inputs. The recipe includes separate backports for CVE-2025-61143 (guard the debug completion log after `loadImage` failure) and CVE-2025-61144 (bound the debug sample dump loop).
-- `tests/fixtures/` contains a one-pixel, nine-sample separate-planar TIFF used for the CVE-2025-61144 sample-bound check and the deterministic CVE-2025-61143 missing-photometric/invalid-strip-offset mutation.
+- `patches/` holds DEP-3 backports. `patches/metadata.json` records target applicability, upstream commit, CVE, patch checksum and regression evidence. The active recipes apply the CVE-2025-61144 fix that bounds the debug sample dump loop. The CVE-2025-61143 guard remains an unselected reference candidate because its failure path has not reproduced on these exact package baselines.
+- `tests/fixtures/` contains a one-pixel, nine-sample separate-planar TIFF used for the CVE-2025-61144 sample-bound check. The malformed-input probe for CVE-2025-61143 is retained as an applicability investigation, not as passing regression evidence.
 - `LICENSES/` preserves upstream and distro copyright and license notices.
 
 Each target has an independent pinned build container, archive snapshot and scanner ecosystem (`Debian:12` or `Debian:13` for Debian) in `getpatched/platform/packages.json`. Debian profiles are currently build/scan candidates only; platform repository publication remains off. The descriptor and source payload hashes were checked against signed distro source indexes, but individual `.dsc` uploader signatures have not been separately verified.
 
 ## Patch and version policy
 
-The recipe backports upstream [commit 88cf9db](https://gitlab.com/libtiff/libtiff/-/commit/88cf9dbb48f6e172629795ecffae35d5052f68aa), which caps a level-2 debug dump loop at `MAX_SAMPLES`, matching the fixed capacity of its sample-buffer array (CVE-2025-61144). The CVE-2025-61143 patch guards `TIFFFileName(out)` when `out` is still null after `loadImage` fails; it is version-scoped to the exact distro sources above.
+The active recipe backports upstream [commit 88cf9db](https://gitlab.com/libtiff/libtiff/-/commit/88cf9dbb48f6e172629795ecffae35d5052f68aa), which caps a level-2 debug dump loop at `MAX_SAMPLES`, matching the fixed capacity of its sample-buffer array (CVE-2025-61144). The CVE-2025-61143 reference patch guards `TIFFFileName(out)` in a later cleanup path, but is not selected for these source versions pending an exact reproducer.
 
 The output preserves the complete distro source version and appends `+getpatchedN`, where `N` is the target's release serial. These candidates use `+getpatched2` because `+getpatched1` was already assigned to the earlier CVE-2025-61144 candidate. A further patch on the same base increments the serial; a changed distro source requires a separately pinned target and fresh evidence. Version ranges alone never establish applicability.
 
 ## Build and verification
 
-The platform build runner downloads the exact `.dsc` and source archives, applies the selected backports to distro packaging, and builds target-specific Debian source and binary packages. Installed baseline checks require CVE-2025-61143 to reproduce the null read in `TIFFFileName` after `loadImage` fails, and CVE-2025-61144 to reproduce the level-2 debug sample-buffer issue. Patched checks require the same CVE-2025-61143 load failure to finish with `Completed run for (not opened)` and zero Memcheck errors, a clean CVE-2025-61144 regression, and a `tiffinfo` consumer check. The release candidate remains ineligible if any check is missing or fails.
+The platform build runner downloads the exact `.dsc` and source archives, applies the selected backports to distro packaging, and builds target-specific Debian source and binary packages. Installed baseline checks require CVE-2025-61144 to reproduce the level-2 debug sample-buffer issue. Patched checks require a clean CVE-2025-61144 regression and a `tiffinfo` consumer check. CVE-2025-61143 remains an unresolved tracker/source-path discrepancy and is not reported as fixed. The release candidate remains ineligible if any required check is missing or fails.
 
 Local recipe validation (from a checkout with the platform repository alongside it):
 

@@ -16,20 +16,6 @@
         "commit": "4d28af5fe61b1760f10981f5072ff1e6fd44f210",
         "url": "https://gitlab.com/libtiff/libtiff/-/commit/4d28af5fe61b1760f10981f5072ff1e6fd44f210"
       },
-      "appliesTo": [
-        {
-          "target": "ubuntu-focal-amd64",
-          "sourceVersion": "4.1.0+git191117-2ubuntu0.20.04.14"
-        },
-        {
-          "target": "debian-bookworm-amd64",
-          "sourceVersion": "4.5.0-6+deb12u4"
-        },
-        {
-          "target": "debian-trixie-amd64",
-          "sourceVersion": "4.7.0-3+deb13u3"
-        }
-      ],
       "dep3": {
         "origin": "One-line backport of the upstream TIFFFileName NULL guard from commit 4d28af5fe61b1760f10981f5072ff1e6fd44f210.",
         "forwarded": "not-needed (applied upstream)",
@@ -45,8 +31,29 @@
               "sha256": "feef75c58c030f4ca51eb50d1162ce7f824a7dfb3498f8953379e59737ad91bc"
             }
           ],
-          "baselineExpectation": "With PhotometricInterpretation removed and the first strip offset changed to 0xfffffff0, the exact installed baseline fails in loadImage before opening an output TIFF and Valgrind reports an invalid read at address 0x0 in TIFFFileName during the debug completion log (exit 97).",
-          "patchedExpectation": "The same loadImage failure returns an error, emits Completed run for (not opened), and reports zero Valgrind memory errors."
+          "baselineExpectation": "Before selecting this patch for a target, the exact installed baseline must reproduce an invalid read in TIFFFileName during the debug completion log. The current investigated targets did not meet this gate; see investigatedTargets.",
+          "patchedExpectation": "If a baseline reproduces the fault, the installed patched build must emit Completed run for (not opened) and report zero Memcheck errors."
+        }
+      ],
+      "selectionStatus": "unselected-unverified",
+      "investigatedTargets": [
+        {
+          "target": "ubuntu-focal-amd64",
+          "sourceVersion": "4.1.0+git191117-2ubuntu0.20.04.14",
+          "baselineRun": "41152882267",
+          "result": "loadImage exits with status 255; Memcheck reports zero errors; cleanup completion marker is absent"
+        },
+        {
+          "target": "debian-bookworm-amd64",
+          "sourceVersion": "4.5.0-6+deb12u4",
+          "baselineRun": "41152882000",
+          "result": "loadImage exits with status 1; Memcheck reports zero errors; cleanup completion marker is absent"
+        },
+        {
+          "target": "debian-trixie-amd64",
+          "sourceVersion": "4.7.0-3+deb13u3",
+          "baselineRun": "41152882388",
+          "result": "loadImage exits with status 1; Memcheck reports zero errors; cleanup completion marker is absent"
         }
       ]
     },
