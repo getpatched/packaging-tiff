@@ -45,7 +45,7 @@
               "sha256": "feef75c58c030f4ca51eb50d1162ce7f824a7dfb3498f8953379e59737ad91bc"
             }
           ],
-          "baselineExpectation": "With the first strip offset changed to 0xfffffff0, the exact installed baseline fails in loadImage and Valgrind reports an invalid read at address 0x0 in TIFFFileName during the debug completion log (exit 97).",
+          "baselineExpectation": "With PhotometricInterpretation removed and the first strip offset changed to 0xfffffff0, the exact installed baseline fails in loadImage before opening an output TIFF and Valgrind reports an invalid read at address 0x0 in TIFFFileName during the debug completion log (exit 97).",
           "patchedExpectation": "The same loadImage failure returns an error, emits Completed run for (not opened), and reports zero Valgrind memory errors."
         }
       ]

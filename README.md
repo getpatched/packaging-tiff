@@ -14,14 +14,14 @@ These entries are not release claims. All targets use the zero-hour public polic
 
 The Focal build also produces `libtiff5` so `libtiff-tools` can install with its matching, versioned runtime dependency. The advisory scan scope remains `libtiff-tools`, where the patched `tiffcrop` executable is shipped.
 
-CVE-2025-61143 now has a candidate backport for these pinned targets. Its regression uses the nine-sample TIFF fixture with its first strip offset moved outside the file, forcing `loadImage` to fail before output creation while the level-2 debug dump is enabled. The candidate remains unreleased until each exact installed baseline reproduces the `TIFFFileName(NULL)` fault and its patched build passes the same probe.
+CVE-2025-61143 now has a candidate backport for these pinned targets. Its regression removes the fixture's `PhotometricInterpretation` tag and moves its first strip offset outside the file. This follows upstream's failure path before an output TIFF is opened while the level-2 debug dump is enabled. The candidate remains unreleased until each exact installed baseline reproduces the `TIFFFileName(NULL)` fault and its patched build passes the same probe.
 
 ## Repository structure
 
 - `package-manifest.json` indexes separate target recipes.
 - `targets/<distribution>/<codename>-<architecture>.json` pins the distro source descriptor and archives, exact source and output versions, changelog, binaries and patch selection.
 - `patches/` holds DEP-3 backports. `patches/metadata.json` records source-version applicability, upstream commit, CVE, patch checksum and regression evidence inputs. The recipe includes separate backports for CVE-2025-61143 (guard the debug completion log after `loadImage` failure) and CVE-2025-61144 (bound the debug sample dump loop).
-- `tests/fixtures/` contains a one-pixel, nine-sample separate-planar TIFF used for the CVE-2025-61144 sample-bound check and the deterministic CVE-2025-61143 invalid-strip-offset mutation.
+- `tests/fixtures/` contains a one-pixel, nine-sample separate-planar TIFF used for the CVE-2025-61144 sample-bound check and the deterministic CVE-2025-61143 missing-photometric/invalid-strip-offset mutation.
 - `LICENSES/` preserves upstream and distro copyright and license notices.
 
 Each target has an independent pinned build container, archive snapshot and scanner ecosystem (`Debian:12` or `Debian:13` for Debian) in `getpatched/platform/packages.json`. Debian profiles are currently build/scan candidates only; platform repository publication remains off. The descriptor and source payload hashes were checked against signed distro source indexes, but individual `.dsc` uploader signatures have not been separately verified.
