@@ -30,11 +30,11 @@ Each target has an independent pinned build container, archive snapshot and scan
 
 The recipe backports upstream [commit 88cf9db](https://gitlab.com/libtiff/libtiff/-/commit/88cf9dbb48f6e172629795ecffae35d5052f68aa), which caps a level-2 debug dump loop at `MAX_SAMPLES`, matching the fixed capacity of its sample-buffer array (CVE-2025-61144). The CVE-2025-61143 patch guards `TIFFFileName(out)` when `out` is still null after `loadImage` fails; it is version-scoped to the exact distro sources above.
 
-The output preserves the complete distro source version and appends `+getpatched1`. A subsequent patch on the same base increments the serial, such as `+getpatched2`; a changed distro source requires a separately pinned target and fresh evidence. Version ranges alone never establish applicability.
+The output preserves the complete distro source version and appends `+getpatchedN`, where `N` is the target's release serial. These candidates use `+getpatched2` because `+getpatched1` was already assigned to the earlier CVE-2025-61144 candidate. A further patch on the same base increments the serial; a changed distro source requires a separately pinned target and fresh evidence. Version ranges alone never establish applicability.
 
 ## Build and verification
 
-The platform build runner downloads the exact `.dsc` and source archives, applies the selected backport to distro packaging, and builds target-specific Debian source and binary packages. Installed baseline checks use Valgrind to reproduce the debug-dump bounds issue. Patched checks require the expected error handling without memory errors and include a `tiffinfo` consumer check. The release candidate remains ineligible if any check is missing or fails.
+The platform build runner downloads the exact `.dsc` and source archives, applies the selected backports to distro packaging, and builds target-specific Debian source and binary packages. Installed baseline checks require CVE-2025-61143 to reproduce the null read in `TIFFFileName` after `loadImage` fails, and CVE-2025-61144 to reproduce the level-2 debug sample-buffer issue. Patched checks require the same CVE-2025-61143 load failure to finish with `Completed run for (not opened)` and zero Memcheck errors, a clean CVE-2025-61144 regression, and a `tiffinfo` consumer check. The release candidate remains ineligible if any check is missing or fails.
 
 Local recipe validation (from a checkout with the platform repository alongside it):
 
