@@ -5,9 +5,9 @@
       "id": "cve-2025-61143",
       "kind": "security",
       "file": "CVE-2025-61143.patch",
-      "sha256": "cda3fbeac08c9fc8c5ac8462c7ea0e88310543e9dd72dd7a93bb9f9c2855efd8",
-      "title": "Avoid a null dereference when tiffcrop cannot open its output",
-      "description": "Guards tiffcrop's debug completion message when output creation failed and adds a width bound to tiffdither's scanline buffer.",
+      "sha256": "41c34af7be2c7917aaaf33252b89a9031183e5bf3ddd57bbe97870366fd839a4",
+      "title": "Guard tiffcrop debug completion after loadImage failure",
+      "description": "Avoid passing a null output TIFF handle to TIFFFileName when loadImage fails before output creation.",
       "cves": [
         "CVE-2025-61143"
       ],
@@ -16,24 +16,10 @@
         "commit": "4d28af5fe61b1760f10981f5072ff1e6fd44f210",
         "url": "https://gitlab.com/libtiff/libtiff/-/commit/4d28af5fe61b1760f10981f5072ff1e6fd44f210"
       },
-      "appliesTo": [
-        {
-          "target": "ubuntu-focal-amd64",
-          "sourceVersion": "4.1.0+git191117-2ubuntu0.20.04.14"
-        },
-        {
-          "target": "debian-bookworm-amd64",
-          "sourceVersion": "4.5.0-6+deb12u4"
-        },
-        {
-          "target": "debian-trixie-amd64",
-          "sourceVersion": "4.7.0-3+deb13u3"
-        }
-      ],
       "dep3": {
-        "origin": "Backport of upstream commit 4d28af5fe61b1760f10981f5072ff1e6fd44f210.",
+        "origin": "One-line backport of the upstream TIFFFileName NULL guard from commit 4d28af5fe61b1760f10981f5072ff1e6fd44f210.",
         "forwarded": "not-needed (applied upstream)",
-        "lastUpdate": "2026-10-30"
+        "lastUpdate": "2026-10-31"
       },
       "tests": [
         {
@@ -42,23 +28,32 @@
           "fixtures": [
             {
               "path": "tests/fixtures/multisample.tif",
-              "sha256": "cc4525fd8ba32458b14d7bcde172a9c5cf3ae98a9629f2f1f1e09a93cc775872"
+              "sha256": "feef75c58c030f4ca51eb50d1162ce7f824a7dfb3498f8953379e59737ad91bc"
             }
           ],
-          "baselineExpectation": "Valgrind reports the null-pointer read when tiffcrop debug logging runs after output creation fails on the exact installed baseline.",
-          "patchedExpectation": "The installed patched tiffcrop reports the failed output without a Valgrind memory error."
+          "baselineExpectation": "Before selecting this patch for a target, the exact installed baseline must reproduce an invalid read in TIFFFileName during the debug completion log. The current investigated targets did not meet this gate; see investigatedTargets.",
+          "patchedExpectation": "If a baseline reproduces the fault, the installed patched build must emit Completed run for (not opened) and report zero Memcheck errors."
+        }
+      ],
+      "selectionStatus": "unselected-unverified",
+      "investigatedTargets": [
+        {
+          "target": "ubuntu-focal-amd64",
+          "sourceVersion": "4.1.0+git191117-2ubuntu0.20.04.14",
+          "baselineRun": "41152882267",
+          "result": "loadImage exits with status 255; Memcheck reports zero errors; cleanup completion marker is absent"
         },
         {
-          "id": "tiffdither-scanline-width-bound",
-          "runner": "getpatched/platform:verification/regression.py",
-          "fixtures": [
-            {
-              "path": "tests/fixtures/subscanline.tif",
-              "sha256": "4f8432b0cffb3426f224f7491ba91d5e2de210033459cd22370ab6f0efe956be"
-            }
-          ],
-          "baselineExpectation": "Valgrind reports an out-of-bounds row access when tiffdither processes the 1-bit, 8-pixel fixture whose scanline occupies one byte.",
-          "patchedExpectation": "The installed patched tiffdither rejects the oversized row without a Valgrind memory error."
+          "target": "debian-bookworm-amd64",
+          "sourceVersion": "4.5.0-6+deb12u4",
+          "baselineRun": "41152882000",
+          "result": "loadImage exits with status 1; Memcheck reports zero errors; cleanup completion marker is absent"
+        },
+        {
+          "target": "debian-trixie-amd64",
+          "sourceVersion": "4.7.0-3+deb13u3",
+          "baselineRun": "41152882388",
+          "result": "loadImage exits with status 1; Memcheck reports zero errors; cleanup completion marker is absent"
         }
       ]
     },
@@ -66,7 +61,7 @@
       "id": "cve-2025-61144-focal",
       "kind": "security",
       "file": "CVE-2025-61144-focal.patch",
-      "sha256": "6e4d26b4e8618a8f217678c59ebe0fcbfa75cc14f3f7ece2ae91bc7ade0c1a5a",
+      "sha256": "f669281532d1da467e40e9a31581b26450cdeedf63dc245b54f923a57ab2bfc2",
       "title": "Bound tiffcrop's debug sample dump loop",
       "description": "Bounds the debug output loop to the MAX_SAMPLES capacity of srcbuffs.",
       "cves": [
@@ -95,10 +90,27 @@
           "fixtures": [
             {
               "path": "tests/fixtures/multisample.tif",
-              "sha256": "cc4525fd8ba32458b14d7bcde172a9c5cf3ae98a9629f2f1f1e09a93cc775872"
+              "sha256": "feef75c58c030f4ca51eb50d1162ce7f824a7dfb3498f8953379e59737ad91bc"
             }
           ],
-          "baselineExpectation": "Valgrind reports the out-of-bounds srcbuffs access against the exact installed baseline package.",
+          "baselineExpectation": "On the exact nine-sample separate-planar RGB/extra fixture and level-2 debug command, the installed baseline must report its target-specific 8-byte uninitialised-value stack signature and a nonzero Memcheck summary (exit 97). The ordered three-frame signatures were captured from the exact installed baseline package for each configured target. This binary-specific runtime signal does not symbolize the stack-array boundary.",
+          "baselineStackSignatures": {
+            "ubuntu-focal-amd64": [
+              "0x111D68",
+              "0x112167",
+              "0x118343"
+            ],
+            "debian-bookworm-amd64": [
+              "0x1131E8",
+              "0x11336B",
+              "0x115EE3"
+            ],
+            "debian-trixie-amd64": [
+              "0x114980",
+              "0x116FB2",
+              "0x10AC12"
+            ]
+          },
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
       ]
@@ -140,10 +152,27 @@
           "fixtures": [
             {
               "path": "tests/fixtures/multisample.tif",
-              "sha256": "cc4525fd8ba32458b14d7bcde172a9c5cf3ae98a9629f2f1f1e09a93cc775872"
+              "sha256": "feef75c58c030f4ca51eb50d1162ce7f824a7dfb3498f8953379e59737ad91bc"
             }
           ],
-          "baselineExpectation": "Valgrind reports the out-of-bounds srcbuffs access against the exact installed baseline package.",
+          "baselineExpectation": "On the exact nine-sample separate-planar RGB/extra fixture and level-2 debug command, the installed baseline must report its target-specific 8-byte uninitialised-value stack signature and a nonzero Memcheck summary (exit 97). The ordered three-frame signatures were captured from the exact installed baseline package for each configured target. This binary-specific runtime signal does not symbolize the stack-array boundary.",
+          "baselineStackSignatures": {
+            "ubuntu-focal-amd64": [
+              "0x111D68",
+              "0x112167",
+              "0x118343"
+            ],
+            "debian-bookworm-amd64": [
+              "0x1131E8",
+              "0x11336B",
+              "0x115EE3"
+            ],
+            "debian-trixie-amd64": [
+              "0x114980",
+              "0x116FB2",
+              "0x10AC12"
+            ]
+          },
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
       ]
