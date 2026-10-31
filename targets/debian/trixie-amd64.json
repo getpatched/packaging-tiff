@@ -43,18 +43,19 @@
   "supportedSourceVersions": [
     "4.7.0-3+deb13u3"
   ],
-  "packageVersion": "4.7.0-3+deb13u3+getpatched1",
-  "releaseSerial": 1,
+  "packageVersion": "4.7.0-3+deb13u3+getpatched2",
+  "releaseSerial": 2,
   "changelog": {
     "distribution": "trixie",
     "urgency": "low",
     "maintainer": "GetPatched Maintainers <packages@getpatched.dev>",
-    "date": "Fri, 30 Oct 2026 00:00:00 +0000"
+    "date": "Sat, 31 Oct 2026 00:00:00 +0000"
   },
   "binaryPackages": [
     "libtiff-tools"
   ],
   "patches": [
+    "cve-2025-61143",
     "cve-2025-61144-debian"
   ],
   "buildPatches": [],

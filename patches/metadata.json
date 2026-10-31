@@ -2,6 +2,55 @@
   "schemaVersion": 3,
   "patches": [
     {
+      "id": "cve-2025-61143",
+      "kind": "security",
+      "file": "CVE-2025-61143.patch",
+      "sha256": "41c34af7be2c7917aaaf33252b89a9031183e5bf3ddd57bbe97870366fd839a4",
+      "title": "Guard tiffcrop debug completion after loadImage failure",
+      "description": "Avoid passing a null output TIFF handle to TIFFFileName when loadImage fails before output creation.",
+      "cves": [
+        "CVE-2025-61143"
+      ],
+      "upstream": {
+        "repository": "https://gitlab.com/libtiff/libtiff",
+        "commit": "4d28af5fe61b1760f10981f5072ff1e6fd44f210",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/4d28af5fe61b1760f10981f5072ff1e6fd44f210"
+      },
+      "appliesTo": [
+        {
+          "target": "ubuntu-focal-amd64",
+          "sourceVersion": "4.1.0+git191117-2ubuntu0.20.04.14"
+        },
+        {
+          "target": "debian-bookworm-amd64",
+          "sourceVersion": "4.5.0-6+deb12u4"
+        },
+        {
+          "target": "debian-trixie-amd64",
+          "sourceVersion": "4.7.0-3+deb13u3"
+        }
+      ],
+      "dep3": {
+        "origin": "One-line backport of the upstream TIFFFileName NULL guard from commit 4d28af5fe61b1760f10981f5072ff1e6fd44f210.",
+        "forwarded": "not-needed (applied upstream)",
+        "lastUpdate": "2026-10-31"
+      },
+      "tests": [
+        {
+          "id": "tiffcrop-null-output-debug-log",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [
+            {
+              "path": "tests/fixtures/multisample.tif",
+              "sha256": "feef75c58c030f4ca51eb50d1162ce7f824a7dfb3498f8953379e59737ad91bc"
+            }
+          ],
+          "baselineExpectation": "With the first strip offset changed to 0xfffffff0, the exact installed baseline fails in loadImage and Valgrind reports an invalid read at address 0x0 in TIFFFileName during the debug completion log (exit 97).",
+          "patchedExpectation": "The same loadImage failure returns an error, emits Completed run for (not opened), and reports zero Valgrind memory errors."
+        }
+      ]
+    },
+    {
       "id": "cve-2025-61144-focal",
       "kind": "security",
       "file": "CVE-2025-61144-focal.patch",
@@ -39,9 +88,21 @@
           ],
           "baselineExpectation": "On the exact nine-sample separate-planar RGB/extra fixture and level-2 debug command, the installed baseline must report its target-specific 8-byte uninitialised-value stack signature and a nonzero Memcheck summary (exit 97). The ordered three-frame signatures were captured from the exact installed baseline package for each configured target. This binary-specific runtime signal does not symbolize the stack-array boundary.",
           "baselineStackSignatures": {
-            "ubuntu-focal-amd64": ["0x111D68", "0x112167", "0x118343"],
-            "debian-bookworm-amd64": ["0x1131E8", "0x11336B", "0x115EE3"],
-            "debian-trixie-amd64": ["0x114980", "0x116FB2", "0x10AC12"]
+            "ubuntu-focal-amd64": [
+              "0x111D68",
+              "0x112167",
+              "0x118343"
+            ],
+            "debian-bookworm-amd64": [
+              "0x1131E8",
+              "0x11336B",
+              "0x115EE3"
+            ],
+            "debian-trixie-amd64": [
+              "0x114980",
+              "0x116FB2",
+              "0x10AC12"
+            ]
           },
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
@@ -89,9 +150,21 @@
           ],
           "baselineExpectation": "On the exact nine-sample separate-planar RGB/extra fixture and level-2 debug command, the installed baseline must report its target-specific 8-byte uninitialised-value stack signature and a nonzero Memcheck summary (exit 97). The ordered three-frame signatures were captured from the exact installed baseline package for each configured target. This binary-specific runtime signal does not symbolize the stack-array boundary.",
           "baselineStackSignatures": {
-            "ubuntu-focal-amd64": ["0x111D68", "0x112167", "0x118343"],
-            "debian-bookworm-amd64": ["0x1131E8", "0x11336B", "0x115EE3"],
-            "debian-trixie-amd64": ["0x114980", "0x116FB2", "0x10AC12"]
+            "ubuntu-focal-amd64": [
+              "0x111D68",
+              "0x112167",
+              "0x118343"
+            ],
+            "debian-bookworm-amd64": [
+              "0x1131E8",
+              "0x11336B",
+              "0x115EE3"
+            ],
+            "debian-trixie-amd64": [
+              "0x114980",
+              "0x116FB2",
+              "0x10AC12"
+            ]
           },
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
