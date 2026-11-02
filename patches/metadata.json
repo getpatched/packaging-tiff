@@ -2,6 +2,78 @@
   "schemaVersion": 3,
   "patches": [
     {
+      "id": "cve-2026-52490-bookworm",
+      "kind": "security",
+      "file": "CVE-2026-52490-bookworm.patch",
+      "sha256": "d53a253d596485e73b253ead2af1ee6c9f8d9e38e96e8499ab85b91397c1f17d",
+      "title": "Reject tiffcrop subdivision counts that overflow unsigned arithmetic (Bookworm)",
+      "description": "Validate subdivision operands before multiplication in both command-line parsing and section writing, preventing unsigned wraparound from bypassing MAX_SECTIONS.",
+      "cves": [
+        "CVE-2026-52490"
+      ],
+      "upstream": {
+        "repository": "https://gitlab.com/libtiff/libtiff",
+        "commit": "e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd"
+      },
+      "appliesTo": [
+        {
+          "target": "debian-bookworm-amd64",
+          "sourceVersion": "4.5.0-6+deb12u4"
+        }
+      ],
+      "dep3": {
+        "origin": "Backport of the tiffcrop overflow checks from upstream commit e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd.",
+        "forwarded": "not-needed (applied upstream)",
+        "lastUpdate": "2026-11-02"
+      },
+      "tests": [
+        {
+          "id": "tiffcrop-subdivision-overflow-check",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [],
+          "baselineExpectation": "With -S 134217729:32, the pinned unsigned 32-bit product wraps to 32 and bypasses MAX_SECTIONS; tiffcrop then handles -h successfully. The exact installed baseline must return zero and show usage.",
+          "patchedExpectation": "The same bounded command must reject the subdivision count before help or file processing, return nonzero, and report the MAX_SECTIONS limit."
+        }
+      ]
+    },
+    {
+      "id": "cve-2026-52490-trixie",
+      "kind": "security",
+      "file": "CVE-2026-52490-trixie.patch",
+      "sha256": "0746a82061d0eafbd5a678a85f40466c91de8cd6604b239636fadcb728152200",
+      "title": "Reject tiffcrop subdivision counts that overflow unsigned arithmetic (Trixie)",
+      "description": "Validate subdivision operands before multiplication in both command-line parsing and section writing, preventing unsigned wraparound from bypassing MAX_SECTIONS.",
+      "cves": [
+        "CVE-2026-52490"
+      ],
+      "upstream": {
+        "repository": "https://gitlab.com/libtiff/libtiff",
+        "commit": "e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd"
+      },
+      "appliesTo": [
+        {
+          "target": "debian-trixie-amd64",
+          "sourceVersion": "4.7.0-3+deb13u3"
+        }
+      ],
+      "dep3": {
+        "origin": "Backport of the tiffcrop overflow checks from upstream commit e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd.",
+        "forwarded": "not-needed (applied upstream)",
+        "lastUpdate": "2026-11-02"
+      },
+      "tests": [
+        {
+          "id": "tiffcrop-subdivision-overflow-check",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [],
+          "baselineExpectation": "With -S 134217729:32, the pinned unsigned 32-bit product wraps to 32 and bypasses MAX_SECTIONS; tiffcrop then handles -h successfully. The exact installed baseline must return zero and show usage.",
+          "patchedExpectation": "The same bounded command must reject the subdivision count before help or file processing, return nonzero, and report the MAX_SECTIONS limit."
+        }
+      ]
+    },
+    {
       "id": "cve-2025-61143",
       "kind": "security",
       "file": "CVE-2025-61143.patch",

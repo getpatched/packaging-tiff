@@ -43,19 +43,20 @@
   "supportedSourceVersions": [
     "4.7.0-3+deb13u3"
   ],
-  "packageVersion": "4.7.0-3+deb13u3+getpatched2",
-  "releaseSerial": 2,
+  "packageVersion": "4.7.0-3+deb13u3+getpatched3",
+  "releaseSerial": 3,
   "changelog": {
     "distribution": "trixie",
-    "urgency": "low",
+    "urgency": "medium",
     "maintainer": "GetPatched Maintainers <packages@getpatched.dev>",
-    "date": "Sat, 31 Oct 2026 00:00:00 +0000"
+    "date": "Mon, 02 Nov 2026 00:00:00 +0000"
   },
   "binaryPackages": [
     "libtiff-tools"
   ],
   "patches": [
-    "cve-2025-61144-debian"
+    "cve-2025-61144-debian",
+    "cve-2026-52490-trixie"
   ],
   "buildPatches": [],
   "releaseAccess": {
