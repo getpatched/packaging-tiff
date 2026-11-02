@@ -5,16 +5,16 @@
       "id": "cve-2026-52490-bookworm",
       "kind": "security",
       "file": "CVE-2026-52490-bookworm.patch",
-      "sha256": "d53a253d596485e73b253ead2af1ee6c9f8d9e38e96e8499ab85b91397c1f17d",
+      "sha256": "bfeef0ad3ae83c5b489576a6129efc8c0d6ec00f85efaa7a962f07c0a457f7b9",
       "title": "Reject tiffcrop subdivision counts that overflow unsigned arithmetic (Bookworm)",
-      "description": "Validate subdivision operands before multiplication in both command-line parsing and section writing, preventing unsigned wraparound from bypassing MAX_SECTIONS.",
+      "description": "Validate subdivision operands before multiplication in command-line parsing, output-offset calculation, and section writing, preventing unsigned wraparound from bypassing MAX_SECTIONS.",
       "cves": [
         "CVE-2026-52490"
       ],
       "upstream": {
         "repository": "https://gitlab.com/libtiff/libtiff",
-        "commit": "e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd",
-        "url": "https://gitlab.com/libtiff/libtiff/-/commit/e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd"
+        "commit": "b04e935cb6242f22cc8b63c99a372cf3ea825e4e",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/b04e935cb6242f22cc8b63c99a372cf3ea825e4e"
       },
       "appliesTo": [
         {
@@ -23,9 +23,9 @@
         }
       ],
       "dep3": {
-        "origin": "Backport of the tiffcrop overflow checks from upstream commit e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd.",
-        "forwarded": "not-needed (applied upstream)",
-        "lastUpdate": "2026-11-02"
+        "origin": "Focused backport of the tiffcrop subdivision-count guards from upstream security-fix commit b04e935cb6242f22cc8b63c99a372cf3ea825e4e.",
+        "forwarded": "not-needed; fix is merged upstream",
+        "lastUpdate": "2026-11-03"
       },
       "tests": [
         {
@@ -41,16 +41,16 @@
       "id": "cve-2026-52490-trixie",
       "kind": "security",
       "file": "CVE-2026-52490-trixie.patch",
-      "sha256": "0746a82061d0eafbd5a678a85f40466c91de8cd6604b239636fadcb728152200",
+      "sha256": "92ee9a37eff6d6366627a3a2939824f10d2c539aba2964ef777b5fd061d93926",
       "title": "Reject tiffcrop subdivision counts that overflow unsigned arithmetic (Trixie)",
-      "description": "Validate subdivision operands before multiplication in both command-line parsing and section writing, preventing unsigned wraparound from bypassing MAX_SECTIONS.",
+      "description": "Validate subdivision operands before multiplication in command-line parsing, output-offset calculation, and section writing, preventing unsigned wraparound from bypassing MAX_SECTIONS.",
       "cves": [
         "CVE-2026-52490"
       ],
       "upstream": {
         "repository": "https://gitlab.com/libtiff/libtiff",
-        "commit": "e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd",
-        "url": "https://gitlab.com/libtiff/libtiff/-/commit/e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd"
+        "commit": "b04e935cb6242f22cc8b63c99a372cf3ea825e4e",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/b04e935cb6242f22cc8b63c99a372cf3ea825e4e"
       },
       "appliesTo": [
         {
@@ -59,9 +59,9 @@
         }
       ],
       "dep3": {
-        "origin": "Backport of the tiffcrop overflow checks from upstream commit e12d1cf7ae279063b1b4ebf3e349f21d9d733fbd.",
-        "forwarded": "not-needed (applied upstream)",
-        "lastUpdate": "2026-11-02"
+        "origin": "Focused backport of the tiffcrop subdivision-count guards from upstream security-fix commit b04e935cb6242f22cc8b63c99a372cf3ea825e4e.",
+        "forwarded": "not-needed; fix is merged upstream",
+        "lastUpdate": "2026-11-03"
       },
       "tests": [
         {
