@@ -2,6 +2,37 @@
   "schemaVersion": 3,
   "patches": [
     {
+      "id": "cve-2026-18495-bookworm",
+      "kind": "security",
+      "file": "CVE-2026-18495.patch",
+      "sha256": "f0095282948c102e1b7c3bde96b23d85a88431194ee3f0b3dd90698b2186a238",
+      "title": "Preserve 64-bit strip lengths in tiff2pdf (Bookworm)",
+      "description": "Prevent BigTIFF StripByteCounts values above 32 bits from truncating the tiff2pdf strip-buffer allocation.",
+      "cves": ["CVE-2026-18495"],
+      "upstream": {
+        "repository": "https://gitlab.com/libtiff/libtiff",
+        "commit": "67fd283d276f09db54dc39b9ef7b979d4b45c4b1",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/67fd283d276f09db54dc39b9ef7b979d4b45c4b1"
+      },
+      "appliesTo": [{"target": "debian-bookworm-amd64", "sourceVersion": "4.5.0-6+deb12u4"}],
+      "dep3": {
+        "origin": "Focused backport of the tiff2pdf strip-length fix from upstream hardening commit 67fd283d276f09db54dc39b9ef7b979d4b45c4b1.",
+        "forwarded": "not-needed; fix is merged upstream",
+        "lastUpdate": "2026-11-03"
+      },
+      "tests": [{
+        "id": "tiff2pdf-bigtiff-strip-length-truncation",
+        "runner": "getpatched/platform:verification/regression.py",
+        "fixtures": [
+          {"path": "tests/fixtures/CVE-2026-18495-bigstrip.c", "sha256": "1638cc3648d3c86413980ef9d422c4e091075114934b630458f91eec18948527"},
+          {"path": "tests/fixtures/CVE-2026-18495-bounded-read-shim.c", "sha256": "12a48a3fe6d95bb67890ba6f12ab4aae41c745036e5654ede35d8dd07352584a"}
+        ],
+        "baselineExpectation": "The exact installed baseline truncates the 4 GiB+5 strip length to a 5-byte allocation; reading the bounded 64-byte fixture payload must produce a Valgrind invalid write beyond that allocation.",
+        "patchedExpectation": "The installed patch preserves the 64-bit length; the test allocator rejects the oversized request before strip reading, with zero Memcheck errors."
+      }],
+      "selectionStatus": "candidate-awaiting-hosted-regression"
+    },
+    {
       "id": "cve-2026-52490-bookworm",
       "kind": "security",
       "file": "CVE-2026-52490-bookworm.patch",
