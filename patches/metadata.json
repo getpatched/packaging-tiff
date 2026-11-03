@@ -33,7 +33,44 @@
           "runner": "getpatched/platform:verification/regression.py",
           "fixtures": [],
           "baselineExpectation": "With -S 134217729:32, the pinned unsigned 32-bit product wraps to 32 and bypasses MAX_SECTIONS; tiffcrop then handles -h successfully. The exact installed baseline must return zero and show usage.",
-          "patchedExpectation": "The same bounded command must reject the subdivision count before help or file processing, return nonzero, and report the MAX_SECTIONS limit."
+          "patchedExpectation": "The same bounded command must reject the subdivision count before help or file processing, return nonzero, and report the MAX_SECTIONS limit.",
+          "hostedEvidence": {
+            "runUrl": "https://github.com/getpatched/platform/actions/runs/41553176585",
+            "baselineVersion": "4.5.0-6+deb12u4",
+            "candidateVersion": "4.5.0-6+deb12u4+getpatched3",
+            "baselineRegressionSha256": "07a954df28877b6cad0b1b17a965bb87f1c4716a830fb96c768546b5c3a8790c",
+            "patchedRegressionSha256": "d4eb9cd6895c3e4975877030477af309bdc382dbd1d522ccc888f013afae12db",
+            "baselineCveCommandExitCode": 0,
+            "patchedCveCommandExitCode": 1,
+            "patchedCveCommandStderr": "Limit for subdivisions, ie rows x columns, exceeded: 32.",
+            "packageAwareScanBefore": {
+              "sha256": "4a992e7c9f9c2488cf7d9f919d3d91567e8cfe268c19fa85d0ec9a8947ce538c",
+              "cves": [
+                "CVE-2025-61144",
+                "CVE-2026-52490"
+              ]
+            },
+            "packageAwareScanAfter": {
+              "sha256": "180f59f808db06ac317b319541e8e30263e41a0f7ebe928c85a6150292c62b1b",
+              "cves": []
+            },
+            "signedAptClientReportSha256": "cf97acbaa63c4b9886a0dd0fba04eb46c1b1f8eb241ed55d518528b0c69e652a",
+            "releaseEligibility": {
+              "sha256": "45d63b0ace272934881616f835296dc6f8dc59d2bcbfe2f669f6ff5fc2877b12",
+              "candidateVerified": true,
+              "releaseEligible": false
+            },
+            "rawTrivy": {
+              "databaseSha256": "05a1fa5372e54059b6a7c1fc41afb812fafd9bd56a8e0ab6aa20d7f3f154ff31",
+              "beforeSha256": "45b8b9b4d7fd7f20b10eab7bcbe7465062a94949d11e49450f4c037a51d9c806",
+              "afterSha256": "e196eef7851e179f6002393b048ec55085a22969808bee2d98d0697385554f29",
+              "persistentCves": [
+                "CVE-2025-61144",
+                "CVE-2026-52490"
+              ],
+              "releaseBlocker": true
+            }
+          }
         }
       ]
     },
@@ -69,7 +106,44 @@
           "runner": "getpatched/platform:verification/regression.py",
           "fixtures": [],
           "baselineExpectation": "With -S 134217729:32, the pinned unsigned 32-bit product wraps to 32 and bypasses MAX_SECTIONS; tiffcrop then handles -h successfully. The exact installed baseline must return zero and show usage.",
-          "patchedExpectation": "The same bounded command must reject the subdivision count before help or file processing, return nonzero, and report the MAX_SECTIONS limit."
+          "patchedExpectation": "The same bounded command must reject the subdivision count before help or file processing, return nonzero, and report the MAX_SECTIONS limit.",
+          "hostedEvidence": {
+            "runUrl": "https://github.com/getpatched/platform/actions/runs/41554198692",
+            "baselineVersion": "4.7.0-3+deb13u3",
+            "candidateVersion": "4.7.0-3+deb13u3+getpatched3",
+            "baselineRegressionSha256": "f1285590a268a17ff414d24b0bb3fe8a183eaee07f4036d6784fe9e5ab76fadf",
+            "patchedRegressionSha256": "9dea3a96cd00a426435cbb7675070d86e766633db3fd86ebc2b473d5f4a0cb6e",
+            "baselineCveCommandExitCode": 0,
+            "patchedCveCommandExitCode": 1,
+            "patchedCveCommandStderr": "Limit for subdivisions, ie rows x columns, exceeded: 32.",
+            "packageAwareScanBefore": {
+              "sha256": "c0e01f405668fdcb4aa2b9147e7891348cdb4d75bb75952217cb1b9c0e2eb4bf",
+              "cves": [
+                "CVE-2025-61144",
+                "CVE-2026-52490"
+              ]
+            },
+            "packageAwareScanAfter": {
+              "sha256": "9c4f17568e2e2917768c6fa4c82ab5802b801eb4a1ece71a117484b47baf2ffb",
+              "cves": []
+            },
+            "signedAptClientReportSha256": "ddecb02645c89ed5e433af16edc165e6ec6de371ad0cd6b53b61295eadd2e245",
+            "releaseEligibility": {
+              "sha256": "3f0b9dd3a2f09009d926859da9f711330a95f12b0e4b447d42f721416461b7ba",
+              "candidateVerified": true,
+              "releaseEligible": false
+            },
+            "rawTrivy": {
+              "databaseSha256": "05a1fa5372e54059b6a7c1fc41afb812fafd9bd56a8e0ab6aa20d7f3f154ff31",
+              "beforeSha256": "56e12a578095ab8608d19ddc2bddd680ceb6d729678b4f62c4f801613249d913",
+              "afterSha256": "7879740dc2850f9fc957ef7f878a38cbe82474f4656af0c60841ea2d24177a38",
+              "persistentCves": [
+                "CVE-2025-61144",
+                "CVE-2026-52490"
+              ],
+              "releaseBlocker": true
+            }
+          }
         }
       ]
     },
