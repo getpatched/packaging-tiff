@@ -367,11 +367,11 @@
           "baselineExpectation": "On the exact installed Bookworm baseline, this 64-row RGB PixarLog strip and explicit PIXARLOGDATAFMT_8BITABGR opt-in must reach TIFFReadEncodedStrip, return a positive decode size, and produce a Valgrind invalid write in libtiff.",
           "patchedExpectation": "On the exact installed candidate, the same decoder call must be reached, reject the undersized TIFFStripSize buffer with the PixarLog ABGR error, return -1, and show zero Memcheck errors.",
           "hostedEvidence": {
-            "runUrl": "https://github.com/getpatched/platform/actions/runs/41582114998",
+            "runUrl": "https://github.com/getpatched/platform/actions/runs/41584790178",
             "baselineVersion": "4.5.0-6+deb12u4",
             "candidateVersion": "4.5.0-6+deb12u4+getpatched4",
-            "baselineRegressionSha256": "cc41769a329b91d5b93af2f6ddb8046d145805c20725366d9eacdaef5d30e10c",
-            "patchedRegressionSha256": "bc05e948937108ebd4c174205b87ca3f3b6ef1a40c4f4d196be021de0b6c5140",
+            "baselineRegressionSha256": "562c0474de2705a4b6adc69ded7b30d40512b587a6ad6b11f13c0fc7f8ea3f19",
+            "patchedRegressionSha256": "d627b4212ff3ba05bcbc2c89a6a87fab4cfe0b0125049470ad5459bf6555d5ee",
             "baselineCveCommandExitCode": 97,
             "baselineCveCommandStdout": "decode_called=1 result=24576 strip_size=24576",
             "baselineCveMemcheck": "64 invalid writes from 4 contexts in libtiff",
@@ -380,7 +380,7 @@
             "patchedCveCommandStderr": "PixarLogDecode: Output buffer too small for PixarLog ABGR data.",
             "patchedCveMemcheck": "0 errors from 0 contexts",
             "packageAwareScanBefore": {
-              "sha256": "31944bb75c8cde6765efdc1931ba50471a0605879189dca4e8307384c159860e",
+              "sha256": "450b6bd241e77c18e35d90cbd42a07aee1a08538426950b875c8fe98390a7fde",
               "cves": [
                 "CVE-2025-61144",
                 "CVE-2026-52490",
@@ -393,14 +393,14 @@
               }
             },
             "packageAwareScanAfter": {
-              "sha256": "bb47dd605f31718ec487e1d47da75a865fba02ed874638c762d7303b60147c6e",
+              "sha256": "28e1659caed99a51d4486c979ece9d20751d03dd38d2efd1f90c2ac631859e11",
               "cves": []
             },
-            "advisoryComparisonSha256": "fc6db51e13222b7d8a8467f4e80295593a88e26ff298c04b8f1d63eeff313f01",
+            "advisoryComparisonSha256": "f40a324bf816178fa8d54e037a5030e0ff2659a3b83f4532a637c6ad1e777d1d",
             "rawTrivy": {
               "databaseSha256": "05a1fa5372e54059b6a7c1fc41afb812fafd9bd56a8e0ab6aa20d7f3f154ff31",
-              "beforeSha256": "faaa86b0625c0bf69632a45c2f24370c3aa1bee38014e7cc83b4e9654b690587",
-              "afterSha256": "c60f09dafa3bf469e07ef42579e8adba744a4f5147b627af528e9b639ca1597c",
+              "beforeSha256": "db7cd9ba652141bbd6e4e1a228d0229aa619be40253b14b43fd78f50e5eb056b",
+              "afterSha256": "c7721c4f3b87be0be1c2bd10a5db8b4bba504cf809c027977c1638b123a64946",
               "persistentCves": [
                 "CVE-2025-61144",
                 "CVE-2026-52490",
@@ -409,12 +409,14 @@
               "releaseBlocker": true
             },
             "releaseEligibility": {
-              "sha256": "928cb66992592812837e60d1101d3410889a69a229b474113f2e229d4df764c6",
+              "sha256": "6b32d3bbc7c45c53286f7a6c8d530430201cfbe3b3f82f466e64f191a27cad09",
               "verificationChecksPassed": true,
-              "candidateVerified": false,
+              "candidateVerified": true,
               "releaseEligible": false,
-              "reason": "candidate status remains unverified-development-candidate"
-            }
+              "reason": "repository publication is disabled for this target"
+            },
+            "repositorySmokeSha256": "441c55893050450a2d08849973054031680c5bed47512f97a9edabbf66e7ea2c",
+            "sourceProvenanceSha256": "076d25bb2bbcb4ccc881f001c8b5803af2197efcb4d9b3c36f6b9c4c900aa91f"
           }
         }
       ]
