@@ -43,8 +43,8 @@
   "supportedSourceVersions": [
     "4.5.0-6+deb12u4"
   ],
-  "packageVersion": "4.5.0-6+deb12u4+getpatched4",
-  "releaseSerial": 4,
+  "packageVersion": "4.5.0-6+deb12u4+getpatched5",
+  "releaseSerial": 5,
   "changelog": {
     "distribution": "bookworm",
     "urgency": "medium",
@@ -58,7 +58,8 @@
   "patches": [
     "cve-2025-61144-debian",
     "cve-2026-52490-bookworm",
-    "cve-2026-12912-bookworm"
+    "cve-2026-12912-bookworm",
+    "cve-2026-18495-bookworm"
   ],
   "buildPatches": [],
   "releaseAccess": {
