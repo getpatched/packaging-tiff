@@ -8,29 +8,69 @@
       "sha256": "b08b60817d07fda56f9953618fa7918671b9f6df9367f6e955c615d9116fd646",
       "title": "Preserve 64-bit strip lengths in tiff2pdf (Bookworm)",
       "description": "Prevent BigTIFF StripByteCounts values above 32 bits from truncating the tiff2pdf strip-buffer allocation.",
-      "cves": ["CVE-2026-18495"],
+      "cves": [
+        "CVE-2026-18495"
+      ],
       "upstream": {
         "repository": "https://gitlab.com/libtiff/libtiff",
         "commit": "67fd283d276f09db54dc39b9ef7b979d4b45c4b1",
         "url": "https://gitlab.com/libtiff/libtiff/-/commit/67fd283d276f09db54dc39b9ef7b979d4b45c4b1"
       },
-      "appliesTo": [{"target": "debian-bookworm-amd64", "sourceVersion": "4.5.0-6+deb12u4"}],
+      "appliesTo": [
+        {
+          "target": "debian-bookworm-amd64",
+          "sourceVersion": "4.5.0-6+deb12u4"
+        }
+      ],
       "dep3": {
         "origin": "Focused backport of the tiff2pdf strip-length fix from upstream hardening commit 67fd283d276f09db54dc39b9ef7b979d4b45c4b1.",
         "forwarded": "not-needed; fix is merged upstream",
         "lastUpdate": "2026-11-03"
       },
-      "tests": [{
-        "id": "tiff2pdf-bigtiff-strip-length-truncation",
-        "runner": "getpatched/platform:verification/regression.py",
-        "fixtures": [
-          {"path": "tests/fixtures/CVE-2026-18495-bigstrip.c", "sha256": "1638cc3648d3c86413980ef9d422c4e091075114934b630458f91eec18948527"},
-          {"path": "tests/fixtures/CVE-2026-18495-bounded-read-shim.c", "sha256": "219a624c721376c65c3c2cafe6b1d41f3f25c2a13f0e1571af72f422377a15f1"}
-        ],
-        "baselineExpectation": "The test shim disables TIFF memory mapping, bounds tiff2pdf's separate 4 GiB output scratch allocation and initialization at 64 KiB, then bounds the oversized raw-strip read request at 16 bytes and exits immediately after the syscall. Memcheck must tie that read beyond the truncated 5-byte allocation to libtiff/tiff2pdf.",
-        "patchedExpectation": "The installed patch preserves the 64-bit length; the test shim rejects that oversized allocation before strip reading, with zero Memcheck errors."
-      }],
-      "selectionStatus": "candidate-awaiting-hosted-regression"
+      "tests": [
+        {
+          "id": "tiff2pdf-bigtiff-strip-length-truncation",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [
+            {
+              "path": "tests/fixtures/CVE-2026-18495-bigstrip.c",
+              "sha256": "1638cc3648d3c86413980ef9d422c4e091075114934b630458f91eec18948527"
+            },
+            {
+              "path": "tests/fixtures/CVE-2026-18495-bounded-read-shim.c",
+              "sha256": "219a624c721376c65c3c2cafe6b1d41f3f25c2a13f0e1571af72f422377a15f1"
+            }
+          ],
+          "baselineExpectation": "The test shim disables TIFF memory mapping, bounds tiff2pdf's separate 4 GiB output scratch allocation and initialization at 64 KiB, then bounds the oversized raw-strip read request at 16 bytes and exits immediately after the syscall. Memcheck must tie that read beyond the truncated 5-byte allocation to libtiff/tiff2pdf.",
+          "patchedExpectation": "The installed patch preserves the 64-bit length; the test shim rejects that oversized allocation before strip reading, with zero Memcheck errors.",
+          "hostedEvidence": {
+            "runUrl": "https://github.com/getpatched/platform/actions/runs/41604393283",
+            "sourceCommit": "8d842d44c49116b8c5d231b4b80246296eb77757",
+            "baselineVersion": "4.5.0-6+deb12u4",
+            "candidateVersion": "4.5.0-6+deb12u4+getpatched5",
+            "baselineRegressionSha256": "2138d58bff581d61ba682af4bb06aec68f0925ed89f355fb295d56bb6cf4b43d",
+            "patchedRegressionSha256": "83a4a6017981c51e3f097e328d434cc6cad290e237eab97e20659a8462e4a9cc",
+            "packageAwareScanBeforeSha256": "bd4bd451d5beaca1aa5764b9daa1aeed3bd44685bc13d829a43cd89dc529c892",
+            "packageAwareScanAfterSha256": "c0e36b4d34a5aff3aad0526e548e81d91162a47ab8db0b842f1978bae9101351",
+            "advisoryComparisonSha256": "c52c4d85a9192cb426db65a744cf9c5a36c86ca045d077b6b3d078c6e2e54411",
+            "signedAptClientReportSha256": "328f22c81f54b6a0a9c3a8bf47f7c0c716004d9b3eeab44fee1ae745a7bb9888",
+            "releaseEligibility": {
+              "candidateVerified": true,
+              "verificationChecksPassed": true,
+              "releaseEligible": false,
+              "publication": "disabled"
+            },
+            "rawTrivyTargetFindingsAfter": [
+              "CVE-2025-61144",
+              "CVE-2026-12912",
+              "CVE-2026-18495",
+              "CVE-2026-52490"
+            ],
+            "evidenceDirectory": "evidence/tiff-cve-2026-18495-bookworm-41604393283/"
+          }
+        }
+      ],
+      "selectionStatus": "verified-development-candidate"
     },
     {
       "id": "cve-2026-52490-bookworm",
