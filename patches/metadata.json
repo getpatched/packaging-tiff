@@ -33,7 +33,44 @@
           "runner": "getpatched/platform:verification/regression.py",
           "fixtures": [],
           "baselineExpectation": "With -S 134217729:32, the pinned unsigned 32-bit product wraps to 32 and bypasses MAX_SECTIONS; tiffcrop then handles -h successfully. The exact installed baseline must return zero and show usage.",
-          "patchedExpectation": "The same bounded command must reject the subdivision count before help or file processing, return nonzero, and report the MAX_SECTIONS limit."
+          "patchedExpectation": "The same bounded command must reject the subdivision count before help or file processing, return nonzero, and report the MAX_SECTIONS limit.",
+          "hostedEvidence": {
+            "runUrl": "https://github.com/getpatched/platform/actions/runs/41553176585",
+            "baselineVersion": "4.5.0-6+deb12u4",
+            "candidateVersion": "4.5.0-6+deb12u4+getpatched3",
+            "baselineRegressionSha256": "07a954df28877b6cad0b1b17a965bb87f1c4716a830fb96c768546b5c3a8790c",
+            "patchedRegressionSha256": "d4eb9cd6895c3e4975877030477af309bdc382dbd1d522ccc888f013afae12db",
+            "baselineCveCommandExitCode": 0,
+            "patchedCveCommandExitCode": 1,
+            "patchedCveCommandStderr": "Limit for subdivisions, ie rows x columns, exceeded: 32.",
+            "packageAwareScanBefore": {
+              "sha256": "4a992e7c9f9c2488cf7d9f919d3d91567e8cfe268c19fa85d0ec9a8947ce538c",
+              "cves": [
+                "CVE-2025-61144",
+                "CVE-2026-52490"
+              ]
+            },
+            "packageAwareScanAfter": {
+              "sha256": "180f59f808db06ac317b319541e8e30263e41a0f7ebe928c85a6150292c62b1b",
+              "cves": []
+            },
+            "signedAptClientReportSha256": "cf97acbaa63c4b9886a0dd0fba04eb46c1b1f8eb241ed55d518528b0c69e652a",
+            "releaseEligibility": {
+              "sha256": "45d63b0ace272934881616f835296dc6f8dc59d2bcbfe2f669f6ff5fc2877b12",
+              "candidateVerified": true,
+              "releaseEligible": false
+            },
+            "rawTrivy": {
+              "databaseSha256": "05a1fa5372e54059b6a7c1fc41afb812fafd9bd56a8e0ab6aa20d7f3f154ff31",
+              "beforeSha256": "45b8b9b4d7fd7f20b10eab7bcbe7465062a94949d11e49450f4c037a51d9c806",
+              "afterSha256": "e196eef7851e179f6002393b048ec55085a22969808bee2d98d0697385554f29",
+              "persistentCves": [
+                "CVE-2025-61144",
+                "CVE-2026-52490"
+              ],
+              "releaseBlocker": true
+            }
+          }
         }
       ]
     },
@@ -69,7 +106,44 @@
           "runner": "getpatched/platform:verification/regression.py",
           "fixtures": [],
           "baselineExpectation": "With -S 134217729:32, the pinned unsigned 32-bit product wraps to 32 and bypasses MAX_SECTIONS; tiffcrop then handles -h successfully. The exact installed baseline must return zero and show usage.",
-          "patchedExpectation": "The same bounded command must reject the subdivision count before help or file processing, return nonzero, and report the MAX_SECTIONS limit."
+          "patchedExpectation": "The same bounded command must reject the subdivision count before help or file processing, return nonzero, and report the MAX_SECTIONS limit.",
+          "hostedEvidence": {
+            "runUrl": "https://github.com/getpatched/platform/actions/runs/41554198692",
+            "baselineVersion": "4.7.0-3+deb13u3",
+            "candidateVersion": "4.7.0-3+deb13u3+getpatched3",
+            "baselineRegressionSha256": "f1285590a268a17ff414d24b0bb3fe8a183eaee07f4036d6784fe9e5ab76fadf",
+            "patchedRegressionSha256": "9dea3a96cd00a426435cbb7675070d86e766633db3fd86ebc2b473d5f4a0cb6e",
+            "baselineCveCommandExitCode": 0,
+            "patchedCveCommandExitCode": 1,
+            "patchedCveCommandStderr": "Limit for subdivisions, ie rows x columns, exceeded: 32.",
+            "packageAwareScanBefore": {
+              "sha256": "c0e01f405668fdcb4aa2b9147e7891348cdb4d75bb75952217cb1b9c0e2eb4bf",
+              "cves": [
+                "CVE-2025-61144",
+                "CVE-2026-52490"
+              ]
+            },
+            "packageAwareScanAfter": {
+              "sha256": "9c4f17568e2e2917768c6fa4c82ab5802b801eb4a1ece71a117484b47baf2ffb",
+              "cves": []
+            },
+            "signedAptClientReportSha256": "ddecb02645c89ed5e433af16edc165e6ec6de371ad0cd6b53b61295eadd2e245",
+            "releaseEligibility": {
+              "sha256": "3f0b9dd3a2f09009d926859da9f711330a95f12b0e4b447d42f721416461b7ba",
+              "candidateVerified": true,
+              "releaseEligible": false
+            },
+            "rawTrivy": {
+              "databaseSha256": "05a1fa5372e54059b6a7c1fc41afb812fafd9bd56a8e0ab6aa20d7f3f154ff31",
+              "beforeSha256": "56e12a578095ab8608d19ddc2bddd680ceb6d729678b4f62c4f801613249d913",
+              "afterSha256": "7879740dc2850f9fc957ef7f878a38cbe82474f4656af0c60841ea2d24177a38",
+              "persistentCves": [
+                "CVE-2025-61144",
+                "CVE-2026-52490"
+              ],
+              "releaseBlocker": true
+            }
+          }
         }
       ]
     },
@@ -246,6 +320,102 @@
             ]
           },
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
+        }
+      ]
+    },
+    {
+      "id": "cve-2026-12912-bookworm",
+      "kind": "security",
+      "file": "CVE-2026-12912-bookworm.patch",
+      "sha256": "afe2b4ddedd20cd27da6926a5aea1385b2876aad25df198e3abbafb169f2655d",
+      "title": "Prevent PixarLog 8BITABGR RGB strip writes beyond the caller buffer (Bookworm)",
+      "description": "Correct the four-byte ABGR output cursor and bound the complete decoded multi-row strip for applications that explicitly select PIXARLOGDATAFMT_8BITABGR.",
+      "cves": [
+        "CVE-2026-12912"
+      ],
+      "upstream": {
+        "repository": "https://gitlab.com/libtiff/libtiff",
+        "commit": "90601d9a23382d98f3695ec14441145c37a77574",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/90601d9a23382d98f3695ec14441145c37a77574",
+        "relatedCommits": [
+          "ba2b04b114c5dd945107ccc613cedfcca3af73bb",
+          "51fa6dfe93f20da0d38f079fbc61c7c960bcbc16",
+          "f9bda11bf2fc819b971517582666d56f18b1bc3f"
+        ]
+      },
+      "appliesTo": [
+        {
+          "target": "debian-bookworm-amd64",
+          "sourceVersion": "4.5.0-6+deb12u4"
+        }
+      ],
+      "dep3": {
+        "origin": "Backport of the complete upstream PixarLog 8BITABGR output fix and multi-row caller-buffer bounds across commits ba2b04b, 51fa6df, f9bda11, and 90601d9.",
+        "forwarded": "not-needed; fixes are merged upstream",
+        "lastUpdate": "2026-11-03"
+      },
+      "tests": [
+        {
+          "id": "pixarlog-abgr-rgb-multirow-strip-overflow",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [
+            {
+              "path": "tests/fixtures/pixarlog-abgr.c",
+              "sha256": "c996d1fbdc5d33b56a43f70814318a47c6671c854d091b197389292a21bab0e3"
+            }
+          ],
+          "baselineExpectation": "On the exact installed Bookworm baseline, this 64-row RGB PixarLog strip and explicit PIXARLOGDATAFMT_8BITABGR opt-in must reach TIFFReadEncodedStrip, return a positive decode size, and produce a Valgrind invalid write in libtiff.",
+          "patchedExpectation": "On the exact installed candidate, the same decoder call must be reached, reject the undersized TIFFStripSize buffer with the PixarLog ABGR error, return -1, and show zero Memcheck errors.",
+          "hostedEvidence": {
+            "runUrl": "https://github.com/getpatched/platform/actions/runs/41582114998",
+            "baselineVersion": "4.5.0-6+deb12u4",
+            "candidateVersion": "4.5.0-6+deb12u4+getpatched4",
+            "baselineRegressionSha256": "cc41769a329b91d5b93af2f6ddb8046d145805c20725366d9eacdaef5d30e10c",
+            "patchedRegressionSha256": "bc05e948937108ebd4c174205b87ca3f3b6ef1a40c4f4d196be021de0b6c5140",
+            "baselineCveCommandExitCode": 97,
+            "baselineCveCommandStdout": "decode_called=1 result=24576 strip_size=24576",
+            "baselineCveMemcheck": "64 invalid writes from 4 contexts in libtiff",
+            "patchedCveCommandExitCode": 0,
+            "patchedCveCommandStdout": "decode_called=1 result=-1 strip_size=24576",
+            "patchedCveCommandStderr": "PixarLogDecode: Output buffer too small for PixarLog ABGR data.",
+            "patchedCveMemcheck": "0 errors from 0 contexts",
+            "packageAwareScanBefore": {
+              "sha256": "31944bb75c8cde6765efdc1931ba50471a0605879189dca4e8307384c159860e",
+              "cves": [
+                "CVE-2025-61144",
+                "CVE-2026-52490",
+                "CVE-2026-12912"
+              ],
+              "packageMap": {
+                "CVE-2025-61144": "libtiff-tools",
+                "CVE-2026-52490": "libtiff-tools",
+                "CVE-2026-12912": "libtiff6"
+              }
+            },
+            "packageAwareScanAfter": {
+              "sha256": "bb47dd605f31718ec487e1d47da75a865fba02ed874638c762d7303b60147c6e",
+              "cves": []
+            },
+            "advisoryComparisonSha256": "fc6db51e13222b7d8a8467f4e80295593a88e26ff298c04b8f1d63eeff313f01",
+            "rawTrivy": {
+              "databaseSha256": "05a1fa5372e54059b6a7c1fc41afb812fafd9bd56a8e0ab6aa20d7f3f154ff31",
+              "beforeSha256": "faaa86b0625c0bf69632a45c2f24370c3aa1bee38014e7cc83b4e9654b690587",
+              "afterSha256": "c60f09dafa3bf469e07ef42579e8adba744a4f5147b627af528e9b639ca1597c",
+              "persistentCves": [
+                "CVE-2025-61144",
+                "CVE-2026-52490",
+                "CVE-2026-12912"
+              ],
+              "releaseBlocker": true
+            },
+            "releaseEligibility": {
+              "sha256": "928cb66992592812837e60d1101d3410889a69a229b474113f2e229d4df764c6",
+              "verificationChecksPassed": true,
+              "candidateVerified": false,
+              "releaseEligible": false,
+              "reason": "candidate status remains unverified-development-candidate"
+            }
+          }
         }
       ]
     }
