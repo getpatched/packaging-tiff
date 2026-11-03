@@ -322,6 +322,52 @@
           "patchedExpectation": "The installed patched tiffcrop completes the same debug dump and tiffinfo can read the output."
         }
       ]
+    },
+    {
+      "id": "cve-2026-12912-bookworm",
+      "kind": "security",
+      "file": "CVE-2026-12912-bookworm.patch",
+      "sha256": "afe2b4ddedd20cd27da6926a5aea1385b2876aad25df198e3abbafb169f2655d",
+      "title": "Prevent PixarLog 8BITABGR RGB strip writes beyond the caller buffer (Bookworm)",
+      "description": "Correct the four-byte ABGR output cursor and bound the complete decoded multi-row strip for applications that explicitly select PIXARLOGDATAFMT_8BITABGR.",
+      "cves": [
+        "CVE-2026-12912"
+      ],
+      "upstream": {
+        "repository": "https://gitlab.com/libtiff/libtiff",
+        "commit": "90601d9a23382d98f3695ec14441145c37a77574",
+        "url": "https://gitlab.com/libtiff/libtiff/-/commit/90601d9a23382d98f3695ec14441145c37a77574",
+        "relatedCommits": [
+          "ba2b04b114c5dd945107ccc613cedfcca3af73bb",
+          "51fa6dfe93f20da0d38f079fbc61c7c960bcbc16",
+          "f9bda11bf2fc819b971517582666d56f18b1bc3f"
+        ]
+      },
+      "appliesTo": [
+        {
+          "target": "debian-bookworm-amd64",
+          "sourceVersion": "4.5.0-6+deb12u4"
+        }
+      ],
+      "dep3": {
+        "origin": "Backport of the complete upstream PixarLog 8BITABGR output fix and multi-row caller-buffer bounds across commits ba2b04b, 51fa6df, f9bda11, and 90601d9.",
+        "forwarded": "not-needed; fixes are merged upstream",
+        "lastUpdate": "2026-11-03"
+      },
+      "tests": [
+        {
+          "id": "pixarlog-abgr-rgb-multirow-strip-overflow",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [
+            {
+              "path": "tests/fixtures/pixarlog-abgr.c",
+              "sha256": "c996d1fbdc5d33b56a43f70814318a47c6671c854d091b197389292a21bab0e3"
+            }
+          ],
+          "baselineExpectation": "On the exact installed Bookworm baseline, this 64-row RGB PixarLog strip and explicit PIXARLOGDATAFMT_8BITABGR opt-in must reach TIFFReadEncodedStrip, return a positive decode size, and produce a Valgrind invalid write in libtiff.",
+          "patchedExpectation": "On the exact installed candidate, the same decoder call must be reached, reject the undersized TIFFStripSize buffer with the PixarLog ABGR error, return -1, and show zero Memcheck errors."
+        }
+      ]
     }
   ]
 }
