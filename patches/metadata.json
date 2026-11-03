@@ -5,7 +5,7 @@
       "id": "cve-2026-18495-bookworm",
       "kind": "security",
       "file": "CVE-2026-18495.patch",
-      "sha256": "5f60568edd3fa58e0820f4640d67b8c4107adf157e81563acc2bf439893572b6",
+      "sha256": "b08b60817d07fda56f9953618fa7918671b9f6df9367f6e955c615d9116fd646",
       "title": "Preserve 64-bit strip lengths in tiff2pdf (Bookworm)",
       "description": "Prevent BigTIFF StripByteCounts values above 32 bits from truncating the tiff2pdf strip-buffer allocation.",
       "cves": ["CVE-2026-18495"],
