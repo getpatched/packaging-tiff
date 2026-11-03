@@ -25,9 +25,9 @@
         "runner": "getpatched/platform:verification/regression.py",
         "fixtures": [
           {"path": "tests/fixtures/CVE-2026-18495-bigstrip.c", "sha256": "1638cc3648d3c86413980ef9d422c4e091075114934b630458f91eec18948527"},
-          {"path": "tests/fixtures/CVE-2026-18495-bounded-read-shim.c", "sha256": "809a5e119298656237bdc3f4a4a6cd56311e0acaf627491bc7926e3c8be1e4f5"}
+          {"path": "tests/fixtures/CVE-2026-18495-bounded-read-shim.c", "sha256": "77110912a727261b753b9c2f3f1d807604c99165c1df89884ac740ea56e311e6"}
         ],
-        "baselineExpectation": "The test shim disables TIFF memory mapping and bounds the oversized read request to 16 bytes; the exact installed baseline must still reach the vulnerable raw-strip call and Memcheck must report the read buffer extending beyond its truncated 5-byte allocation.",
+        "baselineExpectation": "The test shim disables TIFF memory mapping and bounds the oversized 4 GiB read request to 16 bytes; the exact installed baseline must still reach the vulnerable raw-strip call and Memcheck must report the read buffer extending beyond its truncated 5-byte allocation.",
         "patchedExpectation": "The installed patch preserves the 64-bit length; the test shim rejects that oversized allocation before strip reading, with zero Memcheck errors."
       }],
       "selectionStatus": "candidate-awaiting-hosted-regression"
