@@ -33,13 +33,6 @@
         "url": "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/tiff/4.1.0+git191117-2ubuntu0.20.04.14/tiff_4.1.0+git191117-2ubuntu0.20.04.14.debian.tar.xz",
         "sha256": "3c89b7298f5ac1521f5524ce0b6948514a11065a20bd9d6c92ff71b3d56bec13",
         "bytes": 53440
-      },
-      {
-        "name": "tiff_4.1.0+git191117-2ubuntu0.20.04.14.dsc",
-        "role": "ubuntu-packaging",
-        "url": "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/tiff/4.1.0+git191117-2ubuntu0.20.04.14/tiff_4.1.0+git191117-2ubuntu0.20.04.14.dsc",
-        "sha256": "a081f31502fa969015561f024659cfe7f9e9d51ca0fb8887ab2db1f5ec26792c",
-        "bytes": 2251
       }
     ],
     "signatureVerification": {
