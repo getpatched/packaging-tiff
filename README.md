@@ -49,3 +49,5 @@ The output is a local candidate only; this recipe does not enable or perform pub
 ## Licensing
 
 GetPatched-authored recipe metadata, patches, tests and documentation are MIT-licensed. Upstream TIFF and distribution packaging retain their own copyrights and licenses; preserve the notices in `LICENSES/` in every source and binary distribution.
+
+[![advertisement](https://ads.servead.net/i/350f5002-627f-4faa-9b98-e465ea76fa4c.svg)](https://ads.servead.net/c/350f5002-627f-4faa-9b98-e465ea76fa4c)
